@@ -7,6 +7,7 @@ import Register from "../Pages/Auth/Register";
 import AuthLayout from "../Layouts/AuthLayout";
 import PublicLessons from "../Pages/Lessons/PublicLessons";
 import PublicLessonDetails from "../Pages/Lessons/PublicLessonDetails";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -27,7 +28,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/publiclessonsdetails/:id",
-        element: <PublicLessonDetails />,
+        element: (
+          <PrivateRoute>
+            <PublicLessonDetails />
+          </PrivateRoute>
+        ),
       },
     ],
   },
