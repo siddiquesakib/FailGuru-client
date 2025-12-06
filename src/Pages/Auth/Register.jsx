@@ -1,14 +1,20 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import useAuth from "../../hooks/useAuth";
+import { toast } from "react-toastify";
 
 const Register = () => {
+  const { signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const f = location.state || "/";
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const navigate = useNavigate();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -19,6 +25,20 @@ const Register = () => {
     event.preventDefault();
     // TODO: hook up to real register flow
     console.log("Register form:", formData);
+  };
+
+  // Handle Google Signin
+  const handleGoogleSignIn = async () => {
+    try {
+      //User Registration using google
+      await signInWithGoogle();
+
+      navigate(f, { replace: true });
+      toast.success("Signup Successful");
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.message);
+    }
   };
 
   return (
@@ -142,7 +162,10 @@ const Register = () => {
 
         {/* Social Login Buttons */}
         <div className="space-y-3 mb-6">
-          <button className="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-gray-300 rounded-full hover:bg-gray-50 transition-colors cursor-pointer">
+          <button
+            onClick={handleGoogleSignIn}
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-gray-300 rounded-full hover:bg-gray-50 transition-colors cursor-pointer"
+          >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
                 fill="#4285F4"
