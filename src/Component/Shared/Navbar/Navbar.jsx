@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router";
 import MyNavLink from "./MyNavlink";
 import useAuth from "../../../hooks/useAuth";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -25,6 +26,16 @@ const Navbar = () => {
       </li>
     </>
   );
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        toast("You Logged Out successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <nav className="bg-[#f9f5f6] border-b border-gray-200">
@@ -76,7 +87,7 @@ const Navbar = () => {
                       👤 Profile
                     </Link>
                     <button
-                      onClick={() => console.log("logout")}
+                      onClick={handleLogOut}
                       className="w-full text-left px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 transition-colors"
                     >
                       🚪 Logout

@@ -82,11 +82,11 @@ const AddLesson = () => {
   const isPremium = false;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-[#f9f5f6] py-8 my-10 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-black mb-2">Add New Lesson</h1>
+          <h1 className="text-4xl font-black mb-2 font2">Add New Lesson</h1>
           <p className="text-gray-600">
             Share your wisdom and life experiences with the community
           </p>

@@ -14,10 +14,6 @@ const PublicLessons = () => {
     queryKey: ["lessons", searchTerm, selectedCategory, selectedTone, sortBy],
     queryFn: async () => {
       const params = new URLSearchParams();
-      if (searchTerm) params.append("search", searchTerm);
-      if (selectedCategory) params.append("category", selectedCategory);
-      if (selectedTone) params.append("tone", selectedTone);
-      if (sortBy) params.append("sort", sortBy);
 
       const result = await axios.get(
         `${import.meta.env.VITE_API_URL}/lessons?${params.toString()}`
@@ -26,106 +22,6 @@ const PublicLessons = () => {
       return result.data;
     },
   });
-
-  // Dummy data - replace with your API call
-  // const lessons = [
-  //   {
-  //     id: 1,
-  //     title: "Embracing Failure as Growth",
-  //     description:
-  //       "Learning to see failures not as setbacks but as stepping stones to success. This mindset shift changed everything for me.",
-  //     category: "Personal Growth",
-  //     emotionalTone: "Motivational",
-  //     creatorName: "Sarah Johnson",
-  //     creatorPhoto: "https://i.pravatar.cc/150?img=1",
-  //     accessLevel: "Free",
-  //     createdDate: "2025-01-15",
-  //     likesCount: 234,
-  //     favoritesCount: 89,
-  //     image:
-  //       "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "The Power of Saying No",
-  //     description:
-  //       "Understanding that saying no to others sometimes means saying yes to yourself. A lesson in boundaries and self-respect.",
-  //     category: "Mindset",
-  //     emotionalTone: "Realization",
-  //     creatorName: "Michael Chen",
-  //     creatorPhoto: "https://i.pravatar.cc/150?img=2",
-  //     accessLevel: "Premium",
-  //     createdDate: "2025-01-10",
-  //     likesCount: 456,
-  //     favoritesCount: 178,
-  //     image:
-  //       "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Career Pivot at 35",
-  //     description:
-  //       "How I left a secure corporate job to pursue my passion. The fears, the challenges, and the ultimate reward.",
-  //     category: "Career",
-  //     emotionalTone: "Motivational",
-  //     creatorName: "Emily Rodriguez",
-  //     creatorPhoto: "https://i.pravatar.cc/150?img=3",
-  //     accessLevel: "Free",
-  //     createdDate: "2025-01-08",
-  //     likesCount: 567,
-  //     favoritesCount: 234,
-  //     image:
-  //       "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400",
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Healing Through Gratitude",
-  //     description:
-  //       "During my darkest days, gratitude became my anchor. Here is how practicing daily gratitude transformed my mental health.",
-  //     category: "Personal Growth",
-  //     emotionalTone: "Gratitude",
-  //     creatorName: "James Williams",
-  //     creatorPhoto: "https://i.pravatar.cc/150?img=4",
-  //     accessLevel: "Free",
-  //     createdDate: "2025-01-05",
-  //     likesCount: 789,
-  //     favoritesCount: 345,
-  //     image:
-  //       "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400",
-  //   },
-  //   {
-  //     id: 5,
-  //     title: "Building Authentic Relationships",
-  //     description:
-  //       "The moment I stopped trying to impress and started being authentic. Quality over quantity in friendships.",
-  //     category: "Relationships",
-  //     emotionalTone: "Realization",
-  //     creatorName: "Lisa Anderson",
-  //     creatorPhoto: "https://i.pravatar.cc/150?img=5",
-  //     accessLevel: "Premium",
-  //     createdDate: "2025-01-03",
-  //     likesCount: 432,
-  //     favoritesCount: 167,
-  //     image:
-  //       "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400",
-  //   },
-  //   {
-  //     id: 6,
-  //     title: "Learning from My Biggest Mistake",
-  //     description:
-  //       "A costly business decision that taught me more than any success ever could. Sometimes pain is the best teacher.",
-  //     category: "Mistakes Learned",
-  //     emotionalTone: "Sad",
-  //     creatorName: "David Kim",
-  //     creatorPhoto: "https://i.pravatar.cc/150?img=6",
-  //     accessLevel: "Free",
-  //     createdDate: "2025-01-01",
-  //     likesCount: 678,
-  //     favoritesCount: 289,
-  //     image:
-  //       "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400",
-  //   },
-  // ];
 
   const categories = [
     "Personal Growth",

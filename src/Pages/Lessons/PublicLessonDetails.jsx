@@ -17,15 +17,10 @@ const LessonDetails = () => {
   const { data: lesson, isLoading } = useQuery({
     queryKey: ["lesson", id],
     queryFn: async () => {
-      const token = await user?.getIdToken();
       const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/lessons/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `${import.meta.env.VITE_API_URL}/lessons/${id}`
       );
+
       return result.data;
     },
     enabled: !!id && !!user,
@@ -34,10 +29,7 @@ const LessonDetails = () => {
   // Generate random views count (only once per lesson)
   const randomViews = useMemo(() => Math.floor(Math.random() * 10000), [id]);
 
-  // Check if user is premium and logged in
-  const isPremiumUser = user?.isPremium || false;
-  const isLoggedIn = !!user;
-
+  
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -51,23 +43,7 @@ const LessonDetails = () => {
     );
   }
 
-  if (!lesson) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            Lesson not found
-          </h2>
-          <Link
-            to="/publiclessons"
-            className="text-purple-600 hover:text-purple-700 font-semibold"
-          >
-            ← Back to Public Lessons
-          </Link>
-        </div>
-      </div>
-    );
-  }
+ 
 
   // Dummy similar lessons and comments
   const similarLessons = [
@@ -126,50 +102,7 @@ const LessonDetails = () => {
     "Other",
   ];
 
-  // If premium lesson and user is not premium, show upgrade banner
-  if (lesson.accessLevel === "Premium" && !isPremiumUser) {
-    return (
-      <div className="min-h-screen bg-gray-50 py-8 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div
-            className="bg-white rounded-lg border-4 border-black p-8 text-center"
-            style={{ boxShadow: "8px 8px 0px 0px #000" }}
-          >
-            <div className="mb-6">
-              <svg
-                className="w-24 h-24 mx-auto text-yellow-400"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <h1 className="text-4xl font-black mb-4">Premium Content</h1>
-            <p className="text-xl text-gray-600 mb-8">
-              This lesson is only available to Premium members
-            </p>
-            <div className="blur-sm mb-8">
-              <h2 className="text-2xl font-bold mb-4">{lesson.title}</h2>
-              <p className="text-gray-600">
-                {lesson.description.substring(0, 200)}...
-              </p>
-            </div>
-            <Link
-              to="/pricing"
-              className="inline-block px-8 py-4 text-lg font-bold bg-yellow-400 text-black rounded-lg border-3 border-black transition-all hover:translate-x-1 hover:translate-y-1"
-              style={{ boxShadow: "4px 4px 0px 0px #000" }}
-            >
-              Upgrade to Premium
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  
 
   const handleLike = () => {
     if (!isLoggedIn) {
@@ -211,7 +144,7 @@ const LessonDetails = () => {
   const readingTime = Math.ceil(lesson.description.split(" ").length / 200);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-[#f9f5f6] py-8 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Back Button */}
         <Link
