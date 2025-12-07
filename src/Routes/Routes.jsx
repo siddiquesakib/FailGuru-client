@@ -8,6 +8,10 @@ import AuthLayout from "../Layouts/AuthLayout";
 import PublicLessons from "../Pages/Lessons/PublicLessons";
 import PublicLessonDetails from "../Pages/Lessons/PublicLessonDetails";
 import PrivateRoute from "./PrivateRoute";
+import DashboardLayout from "../Layouts/DashboardLayout";
+import Profile from "../Pages/Dashboard/Profile";
+import AddLesson from "../Pages/Dashboard/AddLesson";
+import MyLessons from "../Pages/Dashboard/MyLessons";
 
 export const router = createBrowserRouter([
   {
@@ -41,16 +45,34 @@ export const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        index: true,
-        element: <Navigate to="login" replace />,
-      },
-      {
         path: "login",
         element: <Login />,
       },
       {
         path: "register",
         element: <Register />,
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: "profile",
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "add-lesson",
+        Component: AddLesson,
+      },
+      {
+        path: "my-lesson",
+        Component: MyLessons,
       },
     ],
   },
