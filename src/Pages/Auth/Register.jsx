@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { imageUpload } from "../../Utils";
 
 const Register = () => {
   const { signInWithGoogle, createUser, updateUser } = useAuth();
@@ -13,23 +16,45 @@ const Register = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
+  const { mutateAsync } = useMutation({
+    mutationFn: async (dataregister) =>
+      await axios.post(`${import.meta.env.VITE_API_URL}/users`, dataregister),
+  });
+
   const onsubmit = async (data) => {
-    const { name, image, email, password } = data;
-    // const imageFile = image[0];
+    const { name, email, password, image } = data;
+    const imgFile = image[0];
 
     try {
-      // const imgURL = await imageUpload(imageFile);
+      // 1. Upload image first
+      const imgURL = await imageUpload(imgFile);
 
-      //2. User Registration
+      // 2. Create Firebase user
       const result = await createUser(email, password);
 
-      //3. Save username & profile photo
+      // 3. Update Firebase profile
       await updateUser(name, imgURL);
-      console.log(result);
 
+      // 4. Save user data to MongoDB
+      const usersdata = {
+        name,
+        email,
+        photoURL: imgURL,
+        role: "user",
+        isPremium: false,
+        totalLessonsCreated: 0,
+        totalLessonsSaved: 0,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      await mutateAsync(usersdata);
+
+      // 5. Reset form and navigate
+      reset();
       navigate(f, { replace: true });
       toast.success("Signup Successful");
     } catch (err) {
@@ -40,16 +65,23 @@ const Register = () => {
 
   // Handle Google Signin
   const handleGoogleSignIn = async () => {
-    try {
-      //User Registration using google
-      await signInWithGoogle();
+    const result = await signInWithGoogle();
 
-      navigate(f, { replace: true });
-      toast.success("Signup Successful");
-    } catch (err) {
-      console.log(err);
-      toast.error(err?.message);
-    }
+    // Save to DB
+    const userData = {
+      name: result.user.displayName,
+      email: result.user.email,
+      photoURL: result.user.photoURL,
+      role: "user",
+      isPremium: false,
+      totalLessonsCreated: 0,
+      totalLessonsSaved: 0,
+      createdAt: new Date().toISOString(),
+    };
+    await mutateAsync(userData);
+
+    navigate(f, { replace: true });
+    toast.success("Signup Successful");
   };
 
   return (
@@ -90,7 +122,6 @@ const Register = () => {
             {...register("name", {
               required: "name lagbe",
               maxLength: {
-                value: 20,
                 message: "must be 20 word",
               },
             })}

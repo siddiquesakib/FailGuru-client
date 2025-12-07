@@ -43,6 +43,10 @@ const Pricing = () => {
     },
   ];
 
+  const handlePayment = async ()=>{
+    
+  }
+
   return (
     <Container className=" py-16 px-4 min-h-screen">
       <div className="my-20">
@@ -108,7 +112,7 @@ const Pricing = () => {
                   </Link>
                 ) : (
                   <Link
-                    to="/register"
+                    to="/"
                     className="block w-full bg-yellow-300 text-black font-bold py-4 rounded-lg text-base text-center border-3 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
                     style={{
                       border: "3px solid #000",
