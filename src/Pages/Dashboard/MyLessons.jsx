@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
 
 const MyLessons = () => {
   const { user, loading } = useAuth();
@@ -8,7 +9,6 @@ const MyLessons = () => {
   const [myLessons, setMyLessons] = useState([]);
 
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [updateFormData, setUpdateFormData] = useState({});
 
@@ -70,10 +70,7 @@ const MyLessons = () => {
     setShowUpdateModal(true);
   };
 
-  const openDeleteModal = (lesson) => {
-    setSelectedLesson(lesson);
-    setShowDeleteModal(true);
-  };
+ 
 
   const toggleVisibility = (lessonId, currentPrivacy) => {
     const newPrivacy = currentPrivacy === "Public" ? "Private" : "Public";
@@ -116,6 +113,51 @@ const MyLessons = () => {
       })
       .catch((err) => console.error("Error fetching lessons:", err));
   }, [user?.email]);
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`${import.meta.env.VITE_API_URL}/my-lessons/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("Failed to delete");
+            }
+            return res.json();
+          })
+          .then((data) => {
+            // Remove deleted lesson from state
+            setMyLessons(myLessons.filter((lesson) => lesson._id !== id));
+
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your lesson has been deleted.",
+              icon: "success",
+            });
+          })
+          .catch((err) => {
+            console.error("Delete error:", err);
+            Swal.fire({
+              title: "Error!",
+              text: "Failed to delete lesson. Please try again.",
+              icon: "error",
+            });
+          });
+      }
+    });
+  };
 
   if (loading) {
     return (
@@ -243,7 +285,7 @@ const MyLessons = () => {
                           ✏️
                         </button>
                         <button
-                          onClick={() => openDeleteModal(lesson)}
+                          onClick={() => handleDelete(lesson._id)}
                           className="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded hover:bg-red-600"
                           title="Delete"
                         >
@@ -467,50 +509,6 @@ const MyLessons = () => {
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {showDeleteModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div
-            className="bg-white rounded-lg border-4 border-black p-6 max-w-md w-full"
-            style={{ boxShadow: "8px 8px 0px 0px #000" }}
-          >
-            <h2 className="text-2xl font-black mb-4">Delete Lesson?</h2>
-            <p className="text-gray-600 mb-2">
-              Are you sure you want to delete this lesson?
-            </p>
-            <p className="font-bold text-gray-900 mb-6">
-              "{selectedLesson?.title}"
-            </p>
-            <p className="text-sm text-red-600 mb-6">
-              ⚠️ This action cannot be undone!
-            </p>
-
-            <div className="flex gap-3">
-              <button
-                onClick={() => {
-                  setLessons(
-                    lessons.filter((l) => l._id !== selectedLesson._id)
-                  );
-                  console.log("Deleted lesson:", selectedLesson._id);
-                  alert("Lesson deleted successfully!");
-                  setShowDeleteModal(false);
-                  // Add axios delete request here
-                }}
-                className="flex-1 py-3 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600"
-              >
-                Delete
-              </button>
-              <button
-                onClick={() => setShowDeleteModal(false)}
-                className="flex-1 py-3 bg-gray-300 text-gray-700 font-bold rounded-lg hover:bg-gray-400"
-              >
-                Cancel
-              </button>
-            </div>
           </div>
         </div>
       )}
