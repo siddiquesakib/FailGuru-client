@@ -1,18 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useParams } from "react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import useAuth from "../../hooks/useAuth";
 import { toast } from "react-toastify";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  LinkedinIcon,
+  LinkedinShareButton,
+  TwitterShareButton,
+} from "react-share";
+import { BsTwitterX } from "react-icons/bs";
+import { MdDeleteForever } from "react-icons/md";
+import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
 
 const LessonDetails = () => {
-  const { id } = useParams();
   const { user } = useAuth();
+  const { id } = useParams();
   const [comment, setComment] = useState("");
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportReason, setReportReason] = useState("");
 
   const queryClient = useQueryClient();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   // Fetch lesson details
   const {
@@ -22,63 +33,66 @@ const LessonDetails = () => {
   } = useQuery({
     queryKey: ["lesson", id],
     queryFn: async () => {
-      const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/lessons/${id}`
-      );
+      const result = await axios.get(`${API_URL}/lessons/${id}`);
+      return result.data;
+    },
+    enabled: !!id,
+  });
+
+  // Fetch comments for this lesson
+  const { data: comments = [], refetch: refetchComments } = useQuery({
+    queryKey: ["comments", id],
+    queryFn: async () => {
+      const result = await axios.get(`${API_URL}/comments/${id}`);
       return result.data;
     },
     enabled: !!id,
   });
 
   // Calculate isLiked from lesson data
-  const isLiked = lesson && user?.email
-    ? Array.isArray(lesson.likes) && lesson.likes.includes(user.email)
-    : false;
+  const isLiked =
+    lesson && user?.email
+      ? Array.isArray(lesson.likes) && lesson.likes.includes(user.email)
+      : false;
 
   // Toggle like mutation
   const toggleLikeMutation = useMutation({
     mutationFn: async ({ lessonId, userEmail }) => {
-      const res = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/lessons/${lessonId}/like`,
-        { userEmail }
-      );
+      const res = await axios.patch(`${API_URL}/lessons/${lessonId}/like`, {
+        userEmail,
+      });
       return res.data;
     },
     onMutate: async ({ userEmail }) => {
-      // Cancel outgoing refetches
       await queryClient.cancelQueries(["lesson", id]);
-
-      // Snapshot previous value
       const previousLesson = queryClient.getQueryData(["lesson", id]);
 
-      // Optimistically update
       queryClient.setQueryData(["lesson", id], (old) => {
         if (!old) return old;
-        
-        const currentlyLiked = Array.isArray(old.likes) && old.likes.includes(userEmail);
-        
+
+        const currentlyLiked =
+          Array.isArray(old.likes) && old.likes.includes(userEmail);
+
         return {
           ...old,
           likes: currentlyLiked
-            ? old.likes.filter(email => email !== userEmail)
+            ? old.likes.filter((email) => email !== userEmail)
             : [...(old.likes || []), userEmail],
           likesCount: currentlyLiked
             ? Math.max(0, (old.likesCount || 0) - 1)
-            : (old.likesCount || 0) + 1
+            : (old.likesCount || 0) + 1,
         };
       });
 
       return { previousLesson };
     },
     onError: (err, variables, context) => {
-      // Rollback on error
       if (context?.previousLesson) {
         queryClient.setQueryData(["lesson", id], context.previousLesson);
       }
       toast.error("Failed to update like");
     },
     onSuccess: (updatedLesson) => {
-      // Update with server data
       queryClient.setQueryData(["lesson", id], updatedLesson);
     },
   });
@@ -100,9 +114,7 @@ const LessonDetails = () => {
     queryKey: ["favorite-status", id, user?.email],
     queryFn: async () => {
       const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/favorites/check/${id}?email=${
-          user.email
-        }`
+        `${API_URL}/favorites/check/${id}?email=${user.email}`
       );
       return result.data;
     },
@@ -113,8 +125,7 @@ const LessonDetails = () => {
 
   // Add to favorites mutation
   const { mutateAsync: addToFavorites } = useMutation({
-    mutationFn: async (data) =>
-      await axios.post(`${import.meta.env.VITE_API_URL}/favorites`, data),
+    mutationFn: async (data) => await axios.post(`${API_URL}/favorites`, data),
     onSuccess: () => {
       toast.success("Added to favorites!");
       refetchFavorite();
@@ -126,9 +137,7 @@ const LessonDetails = () => {
   const { mutateAsync: removeFromFavorites } = useMutation({
     mutationFn: async (lessonId) =>
       await axios.delete(
-        `${import.meta.env.VITE_API_URL}/favorites/${lessonId}?userEmail=${
-          user.email
-        }`
+        `${API_URL}/favorites/${lessonId}?userEmail=${user.email}`
       ),
     onSuccess: () => {
       toast.success("Removed from favorites!");
@@ -163,6 +172,150 @@ const LessonDetails = () => {
     }
   };
 
+  // Post comment mutation
+  const { mutateAsync: postComment } = useMutation({
+    mutationFn: async (commentData) =>
+      await axios.post(`${API_URL}/comments`, commentData),
+    onSuccess: () => {
+      toast.success("Comment posted successfully!");
+      setComment("");
+      refetchComments();
+    },
+    onError: () => {
+      toast.error("Failed to post comment");
+    },
+  });
+
+  // Delete comment mutation
+  const { mutateAsync: deleteComment } = useMutation({
+    mutationFn: async (commentId) =>
+      await axios.delete(
+        `${API_URL}/comments/${commentId}?userEmail=${user.email}`
+      ),
+    onSuccess: () => {
+      toast.success("Comment deleted");
+      refetchComments();
+    },
+    onError: () => {
+      toast.error("Failed to delete comment");
+    },
+  });
+
+  const handleComment = async (e) => {
+    e.preventDefault();
+    if (!user) {
+      toast.error("Please log in to comment");
+      return;
+    }
+
+    if (!comment.trim()) {
+      toast.error("Comment cannot be empty");
+      return;
+    }
+
+    try {
+      await postComment({
+        lessonId: id,
+        userEmail: user.email,
+        userName: user.displayName || "Anonymous",
+        userPhoto: user.photoURL || "https://via.placeholder.com/40",
+        comment: comment.trim(),
+      });
+    } catch (error) {
+      console.error("Comment error:", error);
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    const result = await Swal.fire({
+      title: "Delete comment?",
+      text: "This action cannot be undone",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteComment(commentId);
+      } catch (error) {
+        console.error("Delete error:", error);
+      }
+    }
+  };
+
+  const reportReasons = [
+    "Inappropriate Content",
+    "Hate Speech or Harassment",
+    "Misleading or False Information",
+    "Spam or Promotional Content",
+    "Sensitive or Disturbing Content",
+    "Other",
+  ];
+
+  // Report mutation
+  const { mutateAsync: submitReport } = useMutation({
+    mutationFn: async (reportData) =>
+      await axios.post(`${API_URL}/reports`, reportData),
+    onSuccess: () => {
+      toast.success("Report submitted successfully!");
+      setShowReportModal(false);
+      setReportReason("");
+    },
+    onError: (error) => {
+      if (error.response?.status === 400) {
+        toast.error("You have already reported this lesson");
+      } else {
+        toast.error("Failed to submit report");
+      }
+    },
+  });
+
+  const handleReport = async () => {
+    if (!user) {
+      toast.error("Please log in to report");
+      return;
+    }
+
+    if (!reportReason) {
+      toast.error("Please select a reason");
+      return;
+    }
+
+    const result = await Swal.fire({
+      title: "Report this lesson?",
+      text: `Reason: ${reportReason}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, report it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await submitReport({
+          lessonId: id,
+          lessonTitle: lesson.title,
+          reporterEmail: user.email,
+          reporterName: user.displayName || "Anonymous",
+          reason: reportReason,
+        });
+
+        Swal.fire({
+          title: "Reported!",
+          text: "Your report has been submitted. We'll review it soon.",
+          icon: "success",
+        });
+      } catch (error) {
+        console.error("Report error:", error);
+      }
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -184,54 +337,8 @@ const LessonDetails = () => {
     );
   }
 
-  const comments = [
-    {
-      id: 1,
-      userName: "John Doe",
-      userPhoto: "https://i.pravatar.cc/150?img=7",
-      comment: "This is so inspiring! Thank you for sharing your story.",
-      date: "2025-01-16",
-    },
-    {
-      id: 2,
-      userName: "Jane Smith",
-      userPhoto: "https://i.pravatar.cc/150?img=8",
-      comment: "I needed to read this today. Very motivational!",
-      date: "2025-01-17",
-    },
-  ];
-
-  const reportReasons = [
-    "Inappropriate Content",
-    "Hate Speech or Harassment",
-    "Misleading or False Information",
-    "Spam or Promotional Content",
-    "Sensitive or Disturbing Content",
-    "Other",
-  ];
-
-  const handleReport = () => {
-    if (!reportReason) {
-      toast.error("Please select a reason");
-      return;
-    }
-    console.log("Report submitted:", reportReason);
-    setShowReportModal(false);
-    setReportReason("");
-    toast.success("Report submitted successfully");
-  };
-
-  const handleComment = (e) => {
-    e.preventDefault();
-    if (!user) {
-      toast.error("Please log in to comment");
-      return;
-    }
-    console.log("Comment:", comment);
-    setComment("");
-  };
-
   const readingTime = Math.ceil(lesson.description.split(" ").length / 200);
+  const shareUrl = window.location.href;
 
   return (
     <div className="min-h-screen bg-[#f9f5f6] py-8 px-4">
@@ -330,7 +437,7 @@ const LessonDetails = () => {
             </div>
 
             {/* Author Section */}
-            <div className="bg-linear-to-r from-purple-50 to-pink-50 rounded-lg p-6 mb-6 border-2 border-purple-200">
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 mb-6 border-2 border-purple-200">
               <div className="flex items-center gap-4 mb-4">
                 <img
                   src={lesson.creatorPhoto}
@@ -390,10 +497,18 @@ const LessonDetails = () => {
                     isLiked
                       ? "bg-pink-400 text-white"
                       : "bg-white text-black hover:bg-gray-50"
-                  } ${toggleLikeMutation.isPending ? "opacity-60 cursor-not-allowed" : ""}`}
+                  } ${
+                    toggleLikeMutation.isPending
+                      ? "opacity-60 cursor-not-allowed"
+                      : ""
+                  }`}
                   style={{ boxShadow: "3px 3px 0px 0px #000" }}
                 >
-                  {toggleLikeMutation.isPending ? "⏳ Updating..." : isLiked ? "❤️ Liked" : "❤️ Like"}
+                  {toggleLikeMutation.isPending
+                    ? "⏳ Updating..."
+                    : isLiked
+                    ? "❤️ Liked"
+                    : "❤️ Like"}
                 </button>
 
                 <button
@@ -404,12 +519,22 @@ const LessonDetails = () => {
                   🚩 Report
                 </button>
 
-                <button
-                  className="px-5 py-3 bg-blue-500 text-white font-bold rounded-lg border-2 border-black hover:bg-blue-600 transition-all"
-                  style={{ boxShadow: "3px 3px 0px 0px #000" }}
-                >
-                  📤 Share
-                </button>
+                <div className="flex gap-2 items-center">
+                  <span className="text-sm font-bold text-gray-600">
+                    Share:
+                  </span>
+                  <FacebookShareButton url={shareUrl}>
+                    <FacebookIcon size={32} round />
+                  </FacebookShareButton>
+                  <LinkedinShareButton url={shareUrl}>
+                    <LinkedinIcon size={32} round />
+                  </LinkedinShareButton>
+                  <TwitterShareButton url={shareUrl}>
+                    <div className="bg-black text-white w-8 h-8 rounded-full flex items-center justify-center">
+                      <BsTwitterX className="w-4 h-4" />
+                    </div>
+                  </TwitterShareButton>
+                </div>
               </div>
             </div>
 
@@ -438,31 +563,47 @@ const LessonDetails = () => {
 
               {/* Comments List */}
               <div className="space-y-4">
-                {comments.map((c) => (
-                  <div
-                    key={c.id}
-                    className="bg-gray-50 rounded-lg p-4 border-2 border-gray-200"
-                  >
-                    <div className="flex items-start gap-3">
-                      <img
-                        src={c.userPhoto}
-                        alt={c.userName}
-                        className="w-10 h-10 rounded-full border-2 border-gray-300"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <p className="font-bold text-gray-900">
-                            {c.userName}
-                          </p>
-                          <span className="text-xs text-gray-500">
-                            {new Date(c.date).toLocaleDateString()}
-                          </span>
+                {comments.length === 0 ? (
+                  <p className="text-gray-500 text-center py-8">
+                    No comments yet. Be the first to comment!
+                  </p>
+                ) : (
+                  comments.map((c) => (
+                    <div
+                      key={c._id}
+                      className="bg-gray-50 rounded-lg p-4 border-2 border-gray-200"
+                    >
+                      <div className="flex items-start gap-3">
+                        <img
+                          src={c.userPhoto}
+                          alt={c.userName}
+                          className="w-10 h-10 rounded-full border-2 border-gray-300"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between mb-1">
+                            <div className="flex items-center gap-2">
+                              <p className="font-bold text-gray-900">
+                                {c.userName}
+                              </p>
+                              <span className="text-xs text-gray-500">
+                                {new Date(c.createdAt).toLocaleDateString()}
+                              </span>
+                            </div>
+                            {user && user.email === c.userEmail && (
+                              <button
+                                onClick={() => handleDeleteComment(c._id)}
+                                className="text-red-500 hover:text-red-700 text-sm bg-gray-300 py-1 px-1.5 rounded-3xl font-semibold cursor-pointer flex gap-1"
+                              >
+                                Delete <MdDeleteForever />
+                              </button>
+                            )}
+                          </div>
+                          <p className="text-gray-700">{c.comment}</p>
                         </div>
-                        <p className="text-gray-700">{c.comment}</p>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
           </div>
