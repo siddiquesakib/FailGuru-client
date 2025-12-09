@@ -592,7 +592,7 @@ const LessonDetails = () => {
                             {user && user.email === c.userEmail && (
                               <button
                                 onClick={() => handleDeleteComment(c._id)}
-                                className="text-red-500 hover:text-red-700 text-sm bg-gray-300 py-1 px-1.5 rounded-3xl font-semibold cursor-pointer flex gap-1"
+                                className="text-red-500 hover:text-red-700 text-sm bg-gray-300 py-1 px-1.5 rounded-3xl font-semibold cursor-pointer flex items-center gap-1"
                               >
                                 Delete <MdDeleteForever />
                               </button>

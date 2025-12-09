@@ -61,7 +61,7 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl w-full p-8 relative">
+    <div className="bg-white  shadow-xl w-full p-8 relative">
       {/* Close Button */}
       <button
         onClick={() => navigate("/")}

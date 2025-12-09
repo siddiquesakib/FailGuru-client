@@ -84,7 +84,7 @@ const PublicLessons = () => {
 
         {/* Search and Filters */}
         <div
-          className="bg-white rounded-lg border-3 border-black p-6 mb-8"
+          className="bg-white  border-3 border-black p-6 mb-8"
           style={{ boxShadow: "6px 6px 0px 0px #000" }}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -173,7 +173,7 @@ const PublicLessons = () => {
           {lessons.map((lesson) => (
             <div
               key={lesson._id}
-              className={`bg-white rounded-lg border-3 border-black overflow-hidden transition-all duration-300 hover:-translate-y-1 ${
+              className={`bg-white border-3 rounded-2xl border-black overflow-hidden transition-all duration-300  ${
                 lesson.accessLevel?.toLowerCase() === "premium" &&
                 !isPremiumUser
                   ? "opacity-75 relative"
@@ -304,8 +304,17 @@ const PublicLessons = () => {
                 ) : (
                   <Link
                     to={`/publiclessons/${lesson._id}`}
-                    className="block w-full text-center py-3 bg-purple-600 text-white font-bold rounded-lg border-2 border-black transition-all hover:bg-purple-700"
-                    style={{ boxShadow: "3px 3px 0px 0px #000" }}
+                    className="block w-full bg-[#ffdb58] text-black font-semibold py-4 text-base text-center border-3 rounded-xl border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                    style={{
+                      border: "3px solid #000",
+                      boxShadow: "4px 4px 0px 0px #000",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.boxShadow = "2px 2px 0px 0px #000";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.boxShadow = "4px 4px 0px 0px #000";
+                    }}
                   >
                     See Details
                   </Link>

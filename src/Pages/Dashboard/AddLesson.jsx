@@ -108,7 +108,7 @@ const AddLesson = () => {
         {/* Form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="bg-white rounded-lg border-4 border-black p-8"
+          className="bg-white  border-4 border-black p-8"
           style={{ boxShadow: "8px 8px 0px 0px #000" }}
         >
           {/* Lesson Title */}
@@ -285,10 +285,16 @@ const AddLesson = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-4 text-lg font-bold text-black rounded-lg transition-all"
+            className="block w-full cursor-pointer bg-[#ffdb58] text-black font-semibold py-4 text-base text-center border-3 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
             style={{
-              backgroundColor: "#ffdb58",
+              border: "3px solid #000",
               boxShadow: "4px 4px 0px 0px #000",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = "2px 2px 0px 0px #000";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = "4px 4px 0px 0px #000";
             }}
           >
             Create Lesson

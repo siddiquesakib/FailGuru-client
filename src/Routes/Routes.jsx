@@ -15,11 +15,13 @@ import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 import MyFavorites from "../Pages/Lessons/MyFavorites";
 import LessonDetails from "../Pages/Lessons/LessonDetails";
 import PaymentCancle from "../Pages/Payment/PaymentCancle";
+import Error from "../Pages/Error/Error";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayouts />,
+    errorElement: <Error />,
     children: [
       {
         index: true,

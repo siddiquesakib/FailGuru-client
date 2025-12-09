@@ -5,10 +5,10 @@ export default function MyNavLink({ to, children, onClick }) {
     <NavLink
       to={to}
       onClick={onClick}
-      className={({ isActive }) =>
+       className={({ isActive }) =>
         isActive
-          ? "px-4 py-2 text-[13px] font-semibold text-[#ad651c] transition-all block"
-          : "px-4 py-2 text-[13px] font-semibold text-black transition-all hover:text-gray-600 block"
+          ? "px-1 py-2 text-[13px] font-semibold text-[#ad651c] transition-all"
+          : "px-1 py-2 text-[13px] font-semibold text-black transition-all hover:text-gray-600"
       }
     >
       {children}
