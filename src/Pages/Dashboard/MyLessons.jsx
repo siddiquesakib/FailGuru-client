@@ -203,17 +203,6 @@ const MyLessons = () => {
     }
   };
 
-  const toggleVisibility = (lessonId, currentPrivacy) => {
-    const newPrivacy = currentPrivacy === "Public" ? "Private" : "Public";
-    setLessons(
-      lessons.map((l) =>
-        l._id === lessonId ? { ...l, privacy: newPrivacy } : l
-      )
-    );
-    console.log("Visibility toggled:", lessonId, newPrivacy);
-    // Add axios patch request here
-  };
-
   const toggleAccessLevel = (lessonId, currentLevel) => {
     if (!isPremium) {
       alert("Upgrade to Premium to change access level");
@@ -266,9 +255,7 @@ const MyLessons = () => {
                   <th className="px-4 py-3 text-left text-sm font-black">
                     Category
                   </th>
-                  <th className="px-4 py-3 text-left text-sm font-black">
-                    Visibility
-                  </th>
+                 
                   <th className="px-4 py-3 text-left text-sm font-black">
                     Access
                   </th>
@@ -300,20 +287,7 @@ const MyLessons = () => {
                         {lesson.category}
                       </span>
                     </td>
-                    <td className="px-4 py-4">
-                      <button
-                        onClick={() =>
-                          toggleVisibility(lesson._id, lesson.privacy)
-                        }
-                        className={`px-3 py-1 text-xs font-bold rounded-full border-2 ${
-                          lesson.privacy === "Public"
-                            ? "bg-green-100 text-green-700 border-green-300"
-                            : "bg-gray-100 text-gray-700 border-gray-300"
-                        }`}
-                      >
-                        {lesson.privacy}
-                      </button>
-                    </td>
+                 
                     <td className="px-4 py-4">
                       <button
                         onClick={() =>

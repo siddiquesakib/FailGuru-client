@@ -13,6 +13,7 @@ import Profile from "../Pages/Dashboard/Profile";
 import AddLesson from "../Pages/Dashboard/AddLesson";
 import MyLessons from "../Pages/Dashboard/MyLessons";
 import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
+import MyFavorites from "../Pages/Lessons/MyFavorites";
 
 export const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ export const router = createBrowserRouter([
       {
         path: "my-lesson",
         Component: MyLessons,
+      },
+      {
+        path: "my-favorite",
+        Component: MyFavorites,
       },
     ],
   },

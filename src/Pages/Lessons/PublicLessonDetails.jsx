@@ -1,33 +1,92 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import { toast } from "react-toastify";
 
 const LessonDetails = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const [isLiked, setIsLiked] = useState(false);
-  const [isFavorited, setIsFavorited] = useState(false);
   const [comment, setComment] = useState("");
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportReason, setReportReason] = useState("");
 
   // Fetch lesson details
-  const { data: lesson, isLoading } = useQuery({
+  const { data: lesson, isLoading, refetch: refetchLesson } = useQuery({
     queryKey: ["lesson", id],
     queryFn: async () => {
       const result = await axios.get(
         `${import.meta.env.VITE_API_URL}/lessons/${id}`
       );
-
       return result.data;
     },
-    enabled: !!id && !!user,
+    enabled: !!id,
   });
 
-  // Generate random views count (only once per lesson)
-  // const randomViews = useMemo(() => Math.floor(Math.random() * 10000), [id]);
+  // Check if favorited
+  const { data: favoriteStatus, refetch: refetchFavorite } = useQuery({
+    queryKey: ["favorite-status", id, user?.email],
+    queryFn: async () => {
+      const result = await axios.get(
+        `${import.meta.env.VITE_API_URL}/favorites/check/${id}?email=${user.email}`
+      );
+      return result.data;
+    },
+    enabled: !!user && !!id,
+  });
+
+  const isFavorited = favoriteStatus?.isFavorited || false;
+
+  // Add to favorites mutation
+  const { mutateAsync: addToFavorites } = useMutation({
+    mutationFn: async (data) =>
+      await axios.post(`${import.meta.env.VITE_API_URL}/favorites`, data),
+    onSuccess: () => {
+      toast.success("Added to favorites!");
+      refetchFavorite();
+      refetchLesson(); // Refetch to update count
+    },
+  });
+
+  // Remove from favorites mutation
+  const { mutateAsync: removeFromFavorites } = useMutation({
+    mutationFn: async (lessonId) =>
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/favorites/${lessonId}?userEmail=${user.email}`
+      ),
+    onSuccess: () => {
+      toast.success("Removed from favorites!");
+      refetchFavorite();
+      refetchLesson(); // Refetch to update count
+    },
+  });
+
+  // Handle favorite toggle
+  const handleFavoriteToggle = async () => {
+    if (!user) {
+      toast.error("Please login to add favorites");
+      return;
+    }
+
+    try {
+      if (isFavorited) {
+        await removeFromFavorites(id);
+      } else {
+        await addToFavorites({
+          userEmail: user.email,
+          lessonId: id,
+          lessonTitle: lesson.title,
+          lessonImage: lesson.image,
+          lessonCategory: lesson.category,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update favorites");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -38,6 +97,14 @@ const LessonDetails = () => {
             Loading lesson...
           </p>
         </div>
+      </div>
+    );
+  }
+
+  if (!lesson) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-xl font-semibold text-gray-700">Lesson not found</p>
       </div>
     );
   }
@@ -100,36 +167,28 @@ const LessonDetails = () => {
   ];
 
   const handleLike = () => {
-    if (!isLoggedIn) {
-      alert("Please log in to like");
+    if (!user) {
+      toast.error("Please log in to like");
       return;
     }
     setIsLiked(!isLiked);
   };
 
-  const handleFavorite = () => {
-    if (!isLoggedIn) {
-      alert("Please log in to save");
-      return;
-    }
-    setIsFavorited(!isFavorited);
-  };
-
   const handleReport = () => {
     if (!reportReason) {
-      alert("Please select a reason");
+      toast.error("Please select a reason");
       return;
     }
     console.log("Report submitted:", reportReason);
     setShowReportModal(false);
     setReportReason("");
-    alert("Report submitted successfully");
+    toast.success("Report submitted successfully");
   };
 
   const handleComment = (e) => {
     e.preventDefault();
-    if (!isLoggedIn) {
-      alert("Please log in to comment");
+    if (!user) {
+      toast.error("Please log in to comment");
       return;
     }
     console.log("Comment:", comment);
@@ -244,13 +303,11 @@ const LessonDetails = () => {
                 />
                 <div>
                   <h3 className="text-xl font-bold">{lesson.creatorName}</h3>
-                  <p className="text-gray-600">
-                    {lesson.creatorTotalLessons} lessons created
-                  </p>
+                  <p className="text-gray-600">Lesson creator</p>
                 </div>
               </div>
               <Link
-                to={`/profile/${lesson.creatorName}`}
+                to={`/profile/${lesson.creatorEmail}`}
                 className="inline-block px-5 py-2 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition-colors"
               >
                 View all lessons by this author
@@ -263,18 +320,15 @@ const LessonDetails = () => {
                 <div className="flex gap-6 text-lg">
                   <span className="flex items-center gap-2">
                     <span className="text-2xl">❤️</span>
-                    <span className="font-bold">{lesson.likesCount}</span>
+                    <span className="font-bold">{lesson.likesCount || 0}</span>
                     <span className="text-gray-600">Likes</span>
                   </span>
                   <span className="flex items-center gap-2">
                     <span className="text-2xl">🔖</span>
-                    <span className="font-bold">{lesson.favoritesCount}</span>
+                    <span className="font-bold">
+                      {lesson.favoritesCount || 0}
+                    </span>
                     <span className="text-gray-600">Favorites</span>
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <span className="text-2xl">👀</span>
-                    <span className="font-bold">{lesson.viewsCount}</span>
-                    <span className="text-gray-600">Views</span>
                   </span>
                 </div>
               </div>
@@ -282,10 +336,10 @@ const LessonDetails = () => {
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-3">
                 <button
-                  onClick={handleFavorite}
+                  onClick={handleFavoriteToggle}
                   className={`px-5 py-3 font-bold rounded-lg border-2 border-black transition-all ${
                     isFavorited
-                      ? "bg-yellow-400 text-black"
+                      ? "bg-purple-400 text-white"
                       : "bg-white text-black hover:bg-gray-50"
                   }`}
                   style={{ boxShadow: "3px 3px 0px 0px #000" }}
@@ -384,7 +438,7 @@ const LessonDetails = () => {
             {similarLessons.map((similar) => (
               <Link
                 key={similar.id}
-                to={`/lesson/${similar.id}`}
+                to={`/publiclessons/${similar.id}`}
                 className="bg-white rounded-lg border-3 border-black overflow-hidden transition-all hover:-translate-y-1"
                 style={{ boxShadow: "4px 4px 0px 0px #000" }}
               >
