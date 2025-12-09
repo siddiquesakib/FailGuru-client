@@ -2,7 +2,7 @@ import React from "react";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { imageUpload } from "../../Utils";
@@ -77,8 +77,24 @@ const AddLesson = () => {
   ];
   const emotionalTones = ["Motivational", "Sad", "Realization", "Gratitude"];
 
+
+   // Fetch user data from MongoDB
+  const { data: userData = null } = useQuery({
+    queryKey: ["userData", user?.email],
+    queryFn: async () => {
+      if (!user?.email) return null;
+      
+      const result = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/${user.email}`
+      );
+      return result.data;
+    },
+    enabled: !!user?.email, // Only run when user email exists
+  });
+
+
   // Check if user is premium (replace with your actual logic)
-  const isPremium = false;
+  const isPremium = userData?.email === user?.email && userData?.isPremium === true;
 
   return (
     <div className="min-h-screen bg-[#f9f5f6] py-8 my-10 px-4">

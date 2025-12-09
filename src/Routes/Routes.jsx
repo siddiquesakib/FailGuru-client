@@ -6,7 +6,6 @@ import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
 import AuthLayout from "../Layouts/AuthLayout";
 import PublicLessons from "../Pages/Lessons/PublicLessons";
-import PublicLessonDetails from "../Pages/Lessons/PublicLessonDetails";
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import Profile from "../Pages/Dashboard/Profile";
@@ -14,6 +13,7 @@ import AddLesson from "../Pages/Dashboard/AddLesson";
 import MyLessons from "../Pages/Dashboard/MyLessons";
 import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 import MyFavorites from "../Pages/Lessons/MyFavorites";
+import LessonDetails from "../Pages/Lessons/LessonDetails";
 
 export const router = createBrowserRouter([
   {
@@ -40,7 +40,7 @@ export const router = createBrowserRouter([
         path: "/publiclessons/:id",
         element: (
           <PrivateRoute>
-            <PublicLessonDetails />
+            <LessonDetails />
           </PrivateRoute>
         ),
       },

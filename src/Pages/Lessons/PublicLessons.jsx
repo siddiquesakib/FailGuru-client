@@ -1,14 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import axios from "axios";
 import Container from "../../Component/Shared/Container";
+import useAuth from "../../hooks/useAuth";
 
 const PublicLessons = () => {
+  const { user } = useAuth();
+  console.log(user);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedTone, setSelectedTone] = useState("");
   const [sortBy, setSortBy] = useState("newest");
+  // const { userData, setUserData } = useState(null);
 
   const { data: lessons = [], isLoading } = useQuery({
     queryKey: ["lessons", searchTerm, selectedCategory, selectedTone, sortBy],
@@ -18,9 +22,22 @@ const PublicLessons = () => {
       const result = await axios.get(
         `${import.meta.env.VITE_API_URL}/lessons?${params.toString()}`
       );
-      console.log("Fetched lessons:", result.data);
       return result.data;
     },
+  });
+
+  // Fetch user data from MongoDB
+  const { data: userData = null } = useQuery({
+    queryKey: ["userData", user?.email],
+    queryFn: async () => {
+      if (!user?.email) return null;
+
+      const result = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/${user.email}`
+      );
+      return result.data;
+    },
+    enabled: !!user?.email,
   });
 
   const categories = [
@@ -32,8 +49,13 @@ const PublicLessons = () => {
   ];
   const emotionalTones = ["Motivational", "Sad", "Realization", "Gratitude"];
 
-  // Check if user is premium (replace with your auth logic)
-  const isPremiumUser = false;
+  // Check if user is premium
+  const isPremiumUser =
+    userData?.email === user?.email && userData?.isPremium === true;
+
+  console.log("Auth User Email:", user?.email);
+  console.log("DB User Data:", userData);
+  console.log("Is Premium:", isPremiumUser);
 
   if (isLoading) {
     return (
@@ -163,10 +185,7 @@ const PublicLessons = () => {
               {/* Image */}
               <div className="relative h-48 overflow-hidden">
                 <img
-                  src={
-                    lesson.image ||
-                    "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400"
-                  }
+                  src={lesson.image}
                   alt={lesson.title}
                   className={`w-full h-full object-cover ${
                     lesson.accessLevel?.toLowerCase() === "premium" &&
