@@ -148,11 +148,6 @@ const LessonDetails = () => {
 
   // Handle favorite toggle
   const handleFavoriteToggle = async () => {
-    if (!user) {
-      toast.error("Please login to add favorites");
-      return;
-    }
-
     try {
       if (isFavorited) {
         await removeFromFavorites(id);

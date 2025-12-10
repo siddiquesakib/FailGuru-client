@@ -15,6 +15,7 @@ const AdminDashboard = () => {
     },
   });
 
+  //fetch all lessons
   const { data: lessons = [] } = useQuery({
     queryKey: ["lessons"],
     queryFn: async () => {
@@ -27,6 +28,7 @@ const AdminDashboard = () => {
     },
   });
 
+  //fetch all users
   const { data: users = [] } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
@@ -39,6 +41,7 @@ const AdminDashboard = () => {
     },
   });
 
+  //fetch all reposts
   const { data: reports = [] } = useQuery({
     queryKey: ["reports"],
     queryFn: async () => {
@@ -51,7 +54,23 @@ const AdminDashboard = () => {
     },
   });
 
-  console.log(reports);
+  // Today lessons filter
+  const todaysLessons = lessons?.filter((l) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const created = new Date(l.createdDate);
+    return created >= today;
+  });
+
+  //top lessons creator
+  const topCreator = users.reduce(
+    (max, user) =>
+      (user.totalLessonsCreated || 0) > (max.totalLessonsCreated || 0)
+        ? user
+        : max,
+    {}
+  );
+  console.log(topCreator);
 
   return (
     <div className="min-h-screen bg-[#f9f5f6] py-8 px-4">
@@ -135,7 +154,7 @@ const AdminDashboard = () => {
               <span className="text-sm font-bold text-purple-100">TODAY</span>
             </div>
             <h3 className="text-3xl font-black mb-1">
-              {stats?.todaysNewLessons || 0}
+              {todaysLessons.length || 0}
             </h3>
             <p className="text-sm text-purple-100">New lessons today</p>
             <div className="mt-4 text-sm font-bold text-purple-100">
@@ -151,48 +170,27 @@ const AdminDashboard = () => {
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-black">🏆 Most Active Contributors</h2>
-            <span className="text-sm text-gray-500">Top 5 creators</span>
           </div>
-
-          {stats?.topContributors?.length === 0 ? (
-            <p className="text-center text-gray-400 py-8">
-              No contributors yet
-            </p>
-          ) : (
-            <div className="space-y-4">
-              {stats?.topContributors?.map((contributor, index) => (
-                <div
-                  key={contributor._id}
-                  className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-purple-400 transition-all"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="text-2xl font-black text-gray-400">
-                      #{index + 1}
-                    </div>
-                    <img
-                      src={contributor.photoURL || "https://i.pravatar.cc/150"}
-                      alt={contributor.name}
-                      className="w-12 h-12 rounded-full border-2 border-purple-500"
-                    />
-                    <div>
-                      <p className="font-bold text-gray-900">
-                        {contributor.name}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        {contributor.email}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-2xl font-black text-purple-600">
-                      {contributor.totalLessons}
-                    </p>
-                    <p className="text-xs text-gray-500">lessons created</p>
-                  </div>
-                </div>
-              ))}
+          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-purple-400 transition-all">
+            <div className="flex items-center gap-4">
+              <div className="text-2xl font-black text-gray-400"></div>
+              <img
+                src={topCreator.photoURL || "https://i.pravatar.cc/150"}
+                alt={topCreator.name}
+                className="w-12 h-12 rounded-full border-2 border-purple-500"
+              />
+              <div>
+                <p className="font-bold text-gray-900">{topCreator.name}</p>
+                <p className="text-sm text-gray-500">{topCreator.email}</p>
+              </div>
             </div>
-          )}
+            <div className="text-right">
+              <p className="text-2xl font-black text-purple-600">
+                {topCreator.totalLessonsCreated}
+              </p>
+              <p className="text-xs text-gray-500">lessons created</p>
+            </div>
+          </div>
         </div>
 
         {/* Quick Actions */}

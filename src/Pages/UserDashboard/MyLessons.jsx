@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 
 const MyLessons = () => {
   const { user, isPremiumUser } = useAuth();
-
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState(null);
 
