@@ -3,14 +3,10 @@ import { Outlet } from "react-router";
 import Sidebar from "../Component/Dashboard/Sidebar";
 import Navbar from "../Component/Shared/Navbar/Navbar";
 import Footer from "../Component/Shared/Footer/Footer";
-import useRole from "../hooks/useRole";
 import Loading from "../Component/Shared/Loading/Loading";
 
 const DashboardLayout = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [role, isRoleLoading] = useRole();
-
-  if (isRoleLoading) return <Loading />;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f9f5f6]">

@@ -1,8 +1,13 @@
-import { NavLink } from "react-router";
+import { NavLink } from "react-router"; // ✅ Fixed import
 import useAuth from "../../hooks/useAuth";
+import useRole from "../../hooks/useRole";
 
 const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   const { user, logOut } = useAuth();
+  const [role, isRoleLoading] = useRole();
+
+  const isAdmin = role === "admin";
+  console.log("Current Role:", role, "Is Admin:", isAdmin);
 
   const linkClass = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
@@ -28,7 +33,6 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
 
       {/* User Info */}
       {isCollapsed ? (
-        // Collapsed - শুধু centered avatar
         <div className="flex justify-center mb-8">
           <img
             src={user?.photoURL || "https://i.pravatar.cc/150"}
@@ -38,7 +42,6 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
           />
         </div>
       ) : (
-        // Expanded - full profile card
         <div className="flex items-center gap-3 mb-8 p-3 bg-gray-50 rounded-lg">
           <img
             src={user?.photoURL || "https://i.pravatar.cc/150"}
@@ -49,16 +52,16 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
             <p className="font-bold text-sm truncate">
               {user?.displayName || "User"}
             </p>
-            {/* <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500">
               {isAdmin ? "👑 Admin" : "👤 Member"}
-            </p> */}
+            </p>
           </div>
         </div>
       )}
 
       {/* Navigation */}
       <nav className="space-y-2">
-        {/* ========== COMMON LINKS (All Users) ========== */}
+        {/* user */}
         <NavLink to="/dashboard" end className={linkClass} title="Dashboard">
           <span className="text-lg">📊</span>
           {!isCollapsed && <span>Dashboard</span>}
@@ -92,8 +95,8 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
           {!isCollapsed && <span>My Favorites</span>}
         </NavLink>
 
-        {/* ========== ADMIN ONLY LINKS ========== */}
-        {/* {isAdmin && (
+        {/* admin  */}
+        {isAdmin && (
           <>
             <div className="border-t border-gray-300 my-4 pt-4">
               {!isCollapsed && (
@@ -102,24 +105,40 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
                 </p>
               )}
             </div>
-            <NavLink to="/dashboard/admin" className={linkClass} title="Admin Home">
+            <NavLink
+              to="/dashboard/admin"
+              className={linkClass}
+              title="Admin Home"
+            >
               <span className="text-lg">🏠</span>
               {!isCollapsed && <span>Admin Home</span>}
             </NavLink>
-            <NavLink to="/dashboard/manage-users" className={linkClass} title="Manage Users">
+            <NavLink
+              to="/dashboard/manage-users"
+              className={linkClass}
+              title="Manage Users"
+            >
               <span className="text-lg">👥</span>
               {!isCollapsed && <span>Manage Users</span>}
             </NavLink>
-            <NavLink to="/dashboard/manage-lessons" className={linkClass} title="Manage Lessons">
+            <NavLink
+              to="/dashboard/manage-lessons"
+              className={linkClass}
+              title="Manage Lessons"
+            >
               <span className="text-lg">📖</span>
               {!isCollapsed && <span>Manage Lessons</span>}
             </NavLink>
-            <NavLink to="/dashboard/reported-lessons" className={linkClass} title="Reported Lessons">
+            <NavLink
+              to="/dashboard/reported-lessons"
+              className={linkClass}
+              title="Reported Lessons"
+            >
               <span className="text-lg">🚨</span>
               {!isCollapsed && <span>Reported Lessons</span>}
             </NavLink>
           </>
-        )} */}
+        )}
 
         {/* Logout */}
         <div className="border-t border-gray-300 my-4 pt-4">

@@ -3,9 +3,8 @@ import useAuth from "../../hooks/useAuth";
 import Loading from "../../Component/Shared/Loading/Loading";
 
 const UserDashboard = () => {
-  const { user, isPremiumUser } = useAuth();
+  const { user } = useAuth();
 
-  if (isPremiumUser) return <Loading />;
 
   return (
     <div className=" py-8">
