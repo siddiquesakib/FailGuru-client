@@ -12,7 +12,6 @@ const PublicLessons = () => {
   const [selectedTone, setSelectedTone] = useState("");
   const [sortBy, setSortBy] = useState("newest");
 
-
   //fetch all lessons
   const { data: lessons = [], isLoading } = useQuery({
     queryKey: ["lessons", searchTerm, selectedCategory, selectedTone, sortBy],

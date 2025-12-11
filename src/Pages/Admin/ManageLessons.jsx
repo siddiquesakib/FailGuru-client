@@ -125,7 +125,7 @@ const ManageLessons = () => {
                         className="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded cursor-pointer hover:bg-red-600"
                         title="Delete"
                       >
-                        🗑️
+                        Delete
                       </button>
                     </div>
                   </td>
