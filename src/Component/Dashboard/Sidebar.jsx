@@ -7,7 +7,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   const [role, isRoleLoading] = useRole();
 
   const isAdmin = role === "admin";
-  console.log("Current Role:", role, "Is Admin:", isAdmin);
+  // console.log("Current Role:", role, "Is Admin:", isAdmin);
 
   const linkClass = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${

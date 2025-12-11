@@ -2,10 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
 import { Link } from "react-router";
+import useAuth from "../../hooks/useAuth";
 
 const ManageUsers = () => {
+  const { user } = useAuth();
+
   //fetch all users
-  const { data: users = [] } = useQuery({
+  const { data: users = [], refetch } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
       const params = new URLSearchParams();
@@ -17,7 +20,19 @@ const ManageUsers = () => {
     },
   });
 
-  console.log(users);
+  // console.log(users);
+
+  const handleUsertoAdmin = async (temail) => {
+    try {
+      const res = await axios.patch(
+        `${import.meta.env.VITE_API_URL}/users/update/admin/${temail}`
+      );
+      refetch(); // ✅ Refetch users list
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div>
@@ -30,20 +45,15 @@ const ManageUsers = () => {
           <table className="w-full">
             <thead className="bg-gray-100 border-b-2 border-black">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-black">
-                  Name
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-black">
-                  Role
-                </th>
+                <th className="px-4 py-3 text-left text-sm font-black">Name</th>
+                <th className="px-4 py-3 text-left text-sm font-black">Role</th>
 
-                <th className="px-4 py-3 text-left text-sm font-black">
+                <th className="px-4 py-3 text-center text-sm font-black">
                   Total Lessons Created
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-black">
                   Create Account
                 </th>
-                
               </tr>
             </thead>
             <tbody>
@@ -54,41 +64,29 @@ const ManageUsers = () => {
                 >
                   <td className="px-4 py-4">
                     <p className="font-bold text-gray-900">{lesson.name}</p>
-                    <p className="text-xs text-gray-500">
-                      {lesson.email}
-                    </p>
+                    <p className="text-xs text-gray-500">{lesson.email}</p>
                   </td>
                   <td className="px-4 py-4">
-                    <span className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">
+                    <button
+                      onClick={() => handleUsertoAdmin(lesson.email)} // ✅ CORRECT!
+                      className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full"
+                    >
                       {lesson.role}
-                    </span>
+                    </button>
                   </td>
                   <td className="px-4 py-4">
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xl text-center text-gray-600">
                       {lesson.totalLessonsCreated}
                     </p>
-                   
                   </td>
                   <td className="px-4 py-4 text-sm text-gray-600">
                     {new Date(lesson.createdAt).toLocaleDateString()}
                   </td>
-                  
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-
-        {/* {lessons.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-2xl font-bold text-gray-400 mb-4">
-              No lessons yet
-            </p>
-            <p className="text-gray-600">
-              Create your first lesson to get started!
-            </p>
-          </div>
-        )} */}
       </div>
     </div>
   );

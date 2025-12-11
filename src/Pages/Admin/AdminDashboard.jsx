@@ -146,7 +146,7 @@ const AdminDashboard = () => {
 
           {/* Today's New Lessons */}
           <div
-            className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg border-4 border-black p-6 text-white"
+            className="bg-linear-to-br from-purple-500 to-pink-500 rounded-lg border-4 border-black p-6 text-white"
             style={{ boxShadow: "6px 6px 0px 0px #000" }}
           >
             <div className="flex items-center justify-between mb-4">
