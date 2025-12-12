@@ -52,7 +52,7 @@ const Feature = () => {
             {featuredLessons.map((lesson) => (
               <div
                 key={lesson._id}
-                className={`bg-white border-3 border-black rounded-xl p-6 transition-all duration-300 flex flex-col h-full ${
+                className={`bg-white border-2 border-black   p-6 transition-all duration-300 flex flex-col h-full ${
                   lesson.accessLevel?.toLowerCase() === "premium" &&
                   !isPremiumUser
                     ? "opacity-75"
@@ -156,7 +156,7 @@ const Feature = () => {
                   ) : (
                     <Link
                       to={`/publiclessons/${lesson._id}`}
-                      className="block w-full bg-[#ffdb58] text-black font-semibold py-3 text-center border-3 rounded-xl border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                      className="block w-full bg-[#ffdb58] text-black font-semibold py-3 text-center border-2   border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
                       style={{
                         border: "3px solid #000",
                         boxShadow: "4px 4px 0px 0px #000",

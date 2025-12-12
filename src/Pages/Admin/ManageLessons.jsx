@@ -110,7 +110,7 @@ const ManageLessons = () => {
                   <td className="px-4 py-4">
                     <button
                       onClick={() => toggleFeatured(lesson._id)}
-                      className="px-2 py-3 bg-purple-100 text-purple-700 text-xs font-medium border-2 rounded-xl btn btn-xs"
+                      className="px-2 py-3 bg-purple-100 text-purple-700 text-xs font-medium border-2   btn btn-xs"
                     >
                       {lesson.isFeatured ? "Featured" : "Not Featured"}
                     </button>

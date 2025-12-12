@@ -4,6 +4,9 @@ import { Link } from "react-router";
 import axios from "axios";
 import Container from "../../Component/Shared/Container";
 import useAuth from "../../hooks/useAuth";
+import Heading from "../../Component/Shared/Heading";
+import Paragraph from "../../Component/Shared/Paragraph";
+import Button from "../../Component/Shared/Button";
 
 const PublicLessons = () => {
   const { isPremiumUser } = useAuth();
@@ -35,21 +38,19 @@ const PublicLessons = () => {
   const emotionalTones = ["Motivational", "Sad", "Realization", "Gratitude"];
 
   return (
-    <Container className="min-h-screen bg-gray-50 py-8 px-4">
+    <Container className="min-h-screen py-8 px-4">
       <div className="my-15">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-black mb-2 uppercase">
-            Public Life Lessons
-          </h1>
-          <p className="text-gray-600 text-lg">
+          <Heading>Public Life Lessons</Heading>
+          <Paragraph>
             Explore wisdom and insights shared by our community
-          </p>
+          </Paragraph>
         </div>
 
         {/* Search and Filters */}
         <div
-          className="bg-white border-3 border-black p-6 mb-8"
+          className="bg-white border-2 border-black p-6 mb-8"
           style={{ boxShadow: "6px 6px 0px 0px #000" }}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -133,13 +134,12 @@ const PublicLessons = () => {
           lessons
         </p>
 
-  
         {/* Lessons Grid - 3 Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {lessons.map((lesson) => (
             <div
               key={lesson._id}
-              className={`bg-white border-3 border-black rounded-xl p-6 transition-all duration-300 flex flex-col h-full ${
+              className={`bg-white border-2 border-black   p-6 transition-all duration-300 flex flex-col h-full ${
                 lesson.accessLevel?.toLowerCase() === "premium" &&
                 !isPremiumUser
                   ? "opacity-75"
@@ -241,16 +241,18 @@ const PublicLessons = () => {
                 ) : (
                   <Link
                     to={`/publiclessons/${lesson._id}`}
-                    className="block w-full bg-[#ffdb58] text-black font-semibold py-3 text-center border-3 rounded-xl border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                    className="block w-full bg-[#ffdb58] text-black font-bold py-3 text-center border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
                     style={{
-                      border: "3px solid #000",
-                      boxShadow: "4px 4px 0px 0px #000",
+                      backgroundColor: "#ffdb58",
+                      boxShadow: "2px 2px 0px 0px #000",
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.boxShadow = "2px 2px 0px 0px #000";
+                      e.currentTarget.style.transform = "translate(-2px, -2px)";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.boxShadow = "4px 4px 0px 0px #000";
+                      e.currentTarget.style.transform = "translate(2px, 2px)";
                     }}
                   >
                     See Details

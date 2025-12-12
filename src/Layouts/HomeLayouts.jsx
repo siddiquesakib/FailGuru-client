@@ -5,7 +5,7 @@ import Footer from "../Component/Shared/Footer/Footer";
 
 const HomeLayouts = () => {
   return (
-    <div className="min-h-screen bg-[#f9f5f6]">
+    <div className="min-h-screen bg-[url(/bgimg.png)]">
       <Navbar />
       <main className="pt-0">
         <Outlet />

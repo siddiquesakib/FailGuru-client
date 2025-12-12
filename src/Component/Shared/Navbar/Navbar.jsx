@@ -52,7 +52,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`border-b border-gray-200 bg-[#f9f5f6] bg-[url(/bgimg.png)] top-0 z-50 sticky`}>
+    <nav
+      className={`border-b border-gray-200 bg-[#f9f5f6] bg-[url(/bgimg.png)] top-0 z-50 sticky`}
+    >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -91,7 +93,7 @@ const Navbar = () => {
                 </div>
                 {/* Dropdown Menu */}
                 <div
-                  className="absolute right-0 mt-2 w-48 bg-white rounded-lg border-3 border-black opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+                  className="absolute right-0 mt-2 w-48 bg-white rounded-lg border-2 border-black opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
                   style={{ boxShadow: "4px 4px 0px 0px #000" }}
                 >
                   <div className="py-2">

@@ -29,7 +29,7 @@ const Error = () => {
         <div className="">
           <Link
             onClick={() => navigate(-1)}
-            className="inline-block px-8 py-3 mr-6 text-lg font-bold text-black bg-[#ffdb58]  border-3 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+            className="inline-block px-8 py-3 mr-6 text-lg font-bold text-black bg-[#ffdb58]  border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
             style={{
               border: "3px solid #000",
               boxShadow: "4px 4px 0px 0px #000",
@@ -45,7 +45,7 @@ const Error = () => {
           </Link>
           <Link
             to="/"
-            className="inline-block px-8 py-3 text-lg font-bold text-black bg-[#ffdb58]  border-3 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+            className="inline-block px-8 py-3 text-lg font-bold text-black bg-[#ffdb58]  border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
             style={{
               border: "3px solid #000",
               boxShadow: "4px 4px 0px 0px #000",

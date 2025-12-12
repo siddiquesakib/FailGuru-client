@@ -75,8 +75,8 @@ const Pricing = () => {
   };
 
   return (
-    <div className=" py-1 px-4 min-h-[calc(100vh-250px)] bg-[url(/bgimg.png)]">
-      <div className="my-20">
+    <div className=" py-1 mb-25 px-4 min-h-[calc(100vh-250px)] bg-[url(/bgimg.png)]">
+      <Container className="my-20 ">
         {isPremiumUser ? (
           <div className="text-center mb-12">
             <h1 className="text-3xl md:text-5xl md:w-5xl mx-auto font-black mb-4 font2">
@@ -157,7 +157,7 @@ const Pricing = () => {
                     {plan.name === "PREMIUM" ? (
                       <button
                         onClick={handlePayment}
-                        className="block w-full cursor-pointer bg-[#ffdb58] text-black font-semibold py-4 text-base text-center border-3 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                        className="block w-full cursor-pointer bg-[#ffdb58] text-black font-semibold py-4 text-base text-center border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
                         style={{
                           backgroundColor: "#ffdb58",
                           boxShadow: "2px 2px 0px 0px #000",
@@ -180,7 +180,7 @@ const Pricing = () => {
                     ) : (
                       <button
                         to="/"
-                        className="block w-full cursor-pointer bg-[#ffdb58] text-black font-semibold py-4 text-base text-center border-3 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                        className="block w-full cursor-pointer bg-[#ffdb58] text-black font-semibold py-4 text-base text-center border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
                         style={{
                           backgroundColor: "#ffdb58",
                           boxShadow: "2px 2px 0px 0px #000",
@@ -207,7 +207,7 @@ const Pricing = () => {
             </div>
           </>
         )}
-      </div>
+      </Container>
     </div>
   );
 };

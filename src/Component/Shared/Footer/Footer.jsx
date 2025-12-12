@@ -79,7 +79,7 @@ const Footer = () => {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 bg-[#ffdb58] rounded-full flex items-center justify-center border-3 border-black hover:bg-[#f0b127] transition-all hover:scale-110"
+                className="w-11 h-11 bg-[#ffdb58] rounded-full flex items-center justify-center border-2 border-black hover:bg-[#f0b127] transition-all hover:scale-110"
                 style={{ boxShadow: "3px 3px 0px 0px #000" }}
                 title="Facebook"
               >
@@ -95,7 +95,7 @@ const Footer = () => {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 bg-[#ffdb58] rounded-full flex items-center justify-center border-3 border-black hover:bg-[#f0b127] transition-all hover:scale-110"
+                className="w-11 h-11 bg-[#ffdb58] rounded-full flex items-center justify-center border-2 border-black hover:bg-[#f0b127] transition-all hover:scale-110"
                 style={{ boxShadow: "3px 3px 0px 0px #000" }}
                 title="Twitter / X"
               >
@@ -111,7 +111,7 @@ const Footer = () => {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 bg-[#ffdb58] rounded-full flex items-center justify-center border-3 border-black hover:bg-[#f0b127] transition-all hover:scale-110"
+                className="w-11 h-11 bg-[#ffdb58] rounded-full flex items-center justify-center border-2 border-black hover:bg-[#f0b127] transition-all hover:scale-110"
                 style={{ boxShadow: "3px 3px 0px 0px #000" }}
                 title="LinkedIn"
               >
@@ -127,7 +127,7 @@ const Footer = () => {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 bg-[#ffdb58] rounded-full flex items-center justify-center border-3 border-black hover:bg-[#f0b127] transition-all hover:scale-110"
+                className="w-11 h-11 bg-[#ffdb58] rounded-full flex items-center justify-center border-2 border-black hover:bg-[#f0b127] transition-all hover:scale-110"
                 style={{ boxShadow: "3px 3px 0px 0px #000" }}
                 title="Instagram"
               >
@@ -143,7 +143,7 @@ const Footer = () => {
                 href="https://youtube.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 bg-[#ffdb58] rounded-full flex items-center justify-center border-3 border-black hover:bg-[#f0b127] transition-all hover:scale-110"
+                className="w-11 h-11 bg-[#ffdb58] rounded-full flex items-center justify-center border-2 border-black hover:bg-[#f0b127] transition-all hover:scale-110"
                 style={{ boxShadow: "3px 3px 0px 0px #000" }}
                 title="YouTube"
               >
@@ -159,7 +159,7 @@ const Footer = () => {
                 href="https://github.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 bg-[#ffdb58] rounded-full flex items-center justify-center border-3 border-black hover:bg-[#f0b127] transition-all hover:scale-110"
+                className="w-11 h-11 bg-[#ffdb58] rounded-full flex items-center justify-center border-2 border-black hover:bg-[#f0b127] transition-all hover:scale-110"
                 style={{ boxShadow: "3px 3px 0px 0px #000" }}
                 title="GitHub"
               >

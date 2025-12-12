@@ -294,7 +294,7 @@ const AddLesson = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="block w-full cursor-pointer bg-[#ffdb58] text-black font-semibold py-4 text-base text-center border-3 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+            className="block w-full cursor-pointer bg-[#ffdb58] text-black font-semibold py-4 text-base text-center border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
             style={{
               border: "3px solid #000",
               boxShadow: "4px 4px 0px 0px #000",

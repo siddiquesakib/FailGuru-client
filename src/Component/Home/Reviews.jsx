@@ -92,14 +92,14 @@ const Reviews = () => {
           {reviews.map((review, index) => (
             <SwiperSlide
               key={index}
-              className="bg-white border-4 border-black p-8 "
+              className="bg-[#fdfd96] border-2 border-black p-8 "
               style={{ boxShadow: "6px 6px 0px 0px #000" }}
             >
               <div className="flex items-start gap-4 mb-6">
                 <img
                   src={review.photo}
                   alt={review.name}
-                  className="w-14 h-14 rounded-full border-3 border-gray-200 flex-shrink-0"
+                  className="w-14 h-14 rounded-full border-2 border-gray-200 flex-shrink-0"
                 />
                 <div className="flex-1 min-w-0">
                   <h4 className="font-bold text-xl text-gray-900 mb-2 truncate">
@@ -122,9 +122,9 @@ const Reviews = () => {
               </div>
 
               {/* Review Text - 2 lines */}
-              <p className="text-gray-700 leading-relaxed text-lg line-clamp-2">
+              <Paragraph className="text-black leading-relaxed text-lg line-clamp-2">
                 "{review.text}"
-              </p>
+              </Paragraph>
             </SwiperSlide>
           ))}
         </Swiper>

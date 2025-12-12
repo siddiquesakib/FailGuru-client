@@ -437,7 +437,7 @@ const LessonDetails = () => {
                 <img
                   src={lesson.creatorPhoto}
                   alt={lesson.creatorName}
-                  className="w-16 h-16 rounded-full border-3 border-purple-400"
+                  className="w-16 h-16 rounded-full border-2 border-purple-400"
                 />
                 <div>
                   <h3 className="text-xl font-bold">{lesson.creatorName}</h3>

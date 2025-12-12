@@ -5,7 +5,7 @@ import Footer from "../Component/Shared/Footer/Footer";
 
 const AuthLayout = () => {
   return (
-    <div className="min-h-screen bg-[#f9f5f6] flex flex-col">
+    <div className="min-h-screen bg-[url(/bgimg.png)] flex flex-col">
       <Navbar />
       <main className="flex-1 flex items-center justify-center px-6 lg:px-12 py-12">
         <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">

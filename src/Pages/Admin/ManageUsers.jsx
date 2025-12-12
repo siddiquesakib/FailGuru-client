@@ -18,7 +18,6 @@ const ManageUsers = () => {
     },
   });
 
-
   // console.log(users);
 
   const handleUsertoAdmin = async (temail) => {
@@ -27,7 +26,7 @@ const ManageUsers = () => {
         `${import.meta.env.VITE_API_URL}/users/update/admin/${temail}`
       );
       refetch();
-      toast.success(`${`${temail} are admin now`}`)
+      toast.success(`${`${temail} are admin now`}`);
       console.log(res);
     } catch (err) {
       console.log(err);
@@ -69,7 +68,7 @@ const ManageUsers = () => {
                   <td className="px-4 py-4">
                     <button
                       onClick={() => handleUsertoAdmin(lesson.email)}
-                      className="px-2 py-3 bg-purple-100 text-purple-700 text-xs font-medium border-2 rounded-xl btn btn-xs"
+                      className="px-2 py-3 bg-purple-100 text-purple-700 text-xs font-medium border-2   btn btn-xs"
                     >
                       {lesson.role}
                     </button>
