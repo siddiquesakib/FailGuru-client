@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -14,6 +14,12 @@ import { BsTwitterX } from "react-icons/bs";
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import { IoMdArrowBack } from "react-icons/io";
+import { AiFillLike } from "react-icons/ai";
+import { AiOutlineLike } from "react-icons/ai";
+import { BsSave2Fill } from "react-icons/bs";
+import { BsSave2 } from "react-icons/bs";
+import { VscReport } from "react-icons/vsc";
 
 const LessonDetails = () => {
   const { user } = useAuth();
@@ -21,6 +27,7 @@ const LessonDetails = () => {
   const [comment, setComment] = useState("");
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportReason, setReportReason] = useState("");
+  const navigate = useNavigate();
 
   const queryClient = useQueryClient();
   const API_URL = import.meta.env.VITE_API_URL;
@@ -336,196 +343,144 @@ const LessonDetails = () => {
   const shareUrl = window.location.href;
 
   return (
-    <div className="min-h-screen bg-[#f9f5f6] py-8 px-4">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-[url(/bgimg.png)] py-12 px-4">
+      <div className="max-w-3xl mx-auto">
         {/* Back Button */}
         <Link
-          to="/publiclessons"
-          className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 mb-6 font-semibold"
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-2 mb-8 hover:text-gray-700 text-gray-900 font-semibold transition-colors"
         >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          Back to Public Lessons
+          <IoMdArrowBack />
+          Back to Lessons
         </Link>
 
-        {/* Main Content Card */}
-        <div
-          className="bg-white rounded-lg border-4 border-black overflow-hidden mb-6"
-          style={{ boxShadow: "8px 8px 0px 0px #000" }}
-        >
-          {/* Featured Image */}
-          {lesson.image && (
-            <div className="w-full h-96 overflow-hidden">
-              <img
-                src={lesson.image}
-                alt={lesson.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          )}
-
+        {/* Main Card */}
+        <div className=" rounded-xl overflow-hidden mb-6">
+          {/* Content */}
           <div className="p-8">
-            {/* Title */}
-            <h1 className="text-4xl font-black mb-4">{lesson.title}</h1>
-
             {/* Tags */}
-            <div className="flex flex-wrap gap-2 mb-6">
-              <span className="px-4 py-2 bg-purple-100 text-purple-700 text-sm font-bold rounded-full border-2 border-purple-300">
+            <div className="flex flex-wrap gap-2 mb-4">
+              <span className="px-4 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded-full">
                 {lesson.category}
               </span>
-              <span className="px-4 py-2 bg-pink-100 text-pink-700 text-sm font-bold rounded-full border-2 border-pink-300">
+              <span className="px-4 py-1 bg-pink-100 text-pink-800 text-xs font-bold rounded-full">
                 {lesson.emotionalTone}
               </span>
-              <span
-                className={`px-4 py-2 text-sm font-bold rounded-full border-2 ${
-                  lesson.accessLevel === "Premium"
-                    ? "bg-yellow-100 text-yellow-700 border-yellow-300"
-                    : "bg-green-100 text-green-700 border-green-300"
-                }`}
-              >
-                {lesson.accessLevel}
-              </span>
             </div>
 
-            {/* Metadata */}
-            <div className="bg-gray-50 rounded-lg p-4 mb-6 border-2 border-gray-200">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                <div>
-                  <p className="text-gray-500 font-semibold">Created</p>
-                  <p className="font-bold">
-                    {new Date(lesson.createdDate).toLocaleDateString()}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-500 font-semibold">Updated</p>
-                  <p className="font-bold">
-                    {new Date(lesson.updatedDate).toLocaleDateString()}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-500 font-semibold">Visibility</p>
-                  <p className="font-bold">{lesson.visibility}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 font-semibold">Reading Time</p>
-                  <p className="font-bold">{readingTime} min read</p>
-                </div>
-              </div>
-            </div>
+            {/* Title */}
+            <h1 className="text-4xl font-bold mb-6 text-gray-900">
+              {lesson.title}
+            </h1>
 
-            {/* Full Description */}
-            <div className="prose max-w-none mb-8">
-              <p className="text-lg leading-relaxed whitespace-pre-line text-gray-800">
-                {lesson.description}
-              </p>
-            </div>
-
-            {/* Author Section */}
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 mb-6 border-2 border-purple-200">
+            {/* Author */}
+            <div className="my-8 ">
               <div className="flex items-center gap-4 mb-4">
                 <img
                   src={lesson.creatorPhoto}
                   alt={lesson.creatorName}
-                  className="w-16 h-16 rounded-full border-2 border-purple-400"
+                  className="w-10 rounded-full"
                 />
                 <div>
-                  <h3 className="text-xl font-bold">{lesson.creatorName}</h3>
-                  <p className="text-gray-600">Lesson creator</p>
+                  <h3 className="text-[18px] font-semibold text-gray-900">
+                    {lesson.creatorName}
+                  </h3>
                 </div>
+                <p className="text-[14px] ml-2 text-gray-600">
+                  {readingTime} min read
+                </p>
+                <p className="text-[14px] ml-2 text-gray-600">
+                  {new Date(lesson.createdDate).toLocaleDateString()}
+                </p>
               </div>
-              <Link
-                to={`/profile/${lesson.creatorEmail}`}
-                className="inline-block px-5 py-2 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition-colors"
-              >
-                View all lessons by this author
-              </Link>
             </div>
 
-            {/* Stats & Engagement */}
-            <div className="bg-gray-50 rounded-lg p-6 mb-6 border-2 border-gray-200">
-              <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                <div className="flex gap-6 text-lg">
-                  <span className="flex items-center gap-2">
-                    <span className="text-2xl">❤️</span>
-                    <span className="font-bold">{lesson.likesCount || 0}</span>
-                    <span className="text-gray-600">Likes</span>
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <span className="text-2xl">🔖</span>
-                    <span className="font-bold">
-                      {lesson.favoritesCount || 0}
-                    </span>
-                    <span className="text-gray-600">Favorites</span>
-                  </span>
-                </div>
+            {/* Image */}
+            {lesson.image && (
+              <div className="w-full h-96 overflow-hidden rounded-[10px] mb-8">
+                <img
+                  src={lesson.image}
+                  alt={lesson.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
+            )}
 
-              {/* Action Buttons */}
-              <div className="flex flex-wrap gap-3">
+            {/* Description */}
+            <div className="mb-8 prose max-w-none">
+              <p className="text-lg leading-relaxed text-gray-700">
+                <span className="text-5xl font-bold float-left mr-2 leading-none text-gray-600 ">
+                  {lesson.description.charAt(0)}
+                </span>
+                <span className="whitespace-pre-line">
+                  {lesson.description.slice(1)}
+                </span>
+              </p>
+            </div>
+
+            {/* Stats & Actions */}
+            <div className="mb-8 p-6 bg-gray-50 rounded-lg">
+              {/* Actions */}
+              <div className="flex flex-wrap gap-3 items-center">
                 <button
                   onClick={handleFavoriteToggle}
-                  className={`px-5 py-3 font-bold rounded-lg border-2 border-black transition-all cursor-pointer ${
-                    isFavorited
-                      ? "bg-purple-400 text-white"
-                      : "bg-white text-black hover:bg-gray-50"
-                  }`}
-                  style={{ boxShadow: "3px 3px 0px 0px #000" }}
+                  className={`pr-4 flex font-bold text-gray-700 items-end gap-2 cursor-pointer`}
                 >
-                  {isFavorited ? "🔖 Saved" : "🔖 Save to Favorites"}
+                  {isFavorited ? (
+                    <BsSave2Fill
+                      className="text-gray-700 hover:text-gray-900"
+                      size={22}
+                    />
+                  ) : (
+                    <BsSave2
+                      className="text-gray-700 hover:text-gray-900"
+                      size={22}
+                    />
+                  )}
+                  {lesson.favoritesCount || 0}
                 </button>
 
                 <button
                   onClick={handleLike}
                   disabled={toggleLikeMutation.isPending}
-                  className={`px-5 py-3 font-bold rounded-lg border-2 border-black transition-all cursor-pointer ${
-                    isLiked
-                      ? "bg-pink-400 text-white"
-                      : "bg-white text-black hover:bg-gray-50"
-                  } ${
-                    toggleLikeMutation.isPending
-                      ? "opacity-60 cursor-not-allowed"
-                      : ""
-                  }`}
-                  style={{ boxShadow: "3px 3px 0px 0px #000" }}
+                  className="pr-4 flex font-bold text-gray-700 items-end gap-2 cursor-pointer"
                 >
-                  {toggleLikeMutation.isPending
-                    ? "⏳ Updating..."
-                    : isLiked
-                    ? "❤️ Liked"
-                    : "❤️ Like"}
+                  {isLiked ? (
+                    <AiFillLike
+                      className="text-red-500 hover:text-red-600"
+                      size={27}
+                    />
+                  ) : (
+                    <AiOutlineLike
+                      className="text-gray-700 hover:text-gray-900"
+                      size={27}
+                    />
+                  )}{" "}
+                  {lesson.likesCount || 0}
                 </button>
 
                 <button
                   onClick={() => setShowReportModal(true)}
-                  className="px-5 py-3 bg-white text-black font-bold rounded-lg border-2 border-black hover:bg-gray-50 transition-all"
-                  style={{ boxShadow: "3px 3px 0px 0px #000" }}
+                  className="pr-4 flex font-bold text-gray-700 items-end gap-2 cursor-pointer"
                 >
-                  🚩 Report
+                  <VscReport
+                    className="text-gray-700 hover:text-gray-900"
+                    size={22}
+                  />
                 </button>
 
-                <div className="flex gap-2 items-center">
-                  <span className="text-sm font-bold text-gray-600">
+                <div className="flex gap-2 items-center ml-auto">
+                  <span className="text-sm font-semibold text-gray-600">
                     Share:
                   </span>
                   <FacebookShareButton url={shareUrl}>
-                    <FacebookIcon size={32} round />
+                    <FacebookIcon size={30} round />
                   </FacebookShareButton>
                   <LinkedinShareButton url={shareUrl}>
-                    <LinkedinIcon size={32} round />
+                    <LinkedinIcon size={30} round />
                   </LinkedinShareButton>
                   <TwitterShareButton url={shareUrl}>
-                    <div className="bg-black text-white w-8 h-8 rounded-full flex items-center justify-center">
+                    <div className="bg-black text-white w-9 h-9 rounded-full flex items-center justify-center">
                       <BsTwitterX className="w-4 h-4" />
                     </div>
                   </TwitterShareButton>
@@ -533,49 +488,46 @@ const LessonDetails = () => {
               </div>
             </div>
 
-            {/* Comment Section */}
-            <div className="border-t-4 border-black pt-6">
-              <h3 className="text-2xl font-black mb-4">
+            {/* Comments */}
+            <div>
+              <h3 className="text-2xl font-bold mb-6 text-gray-900">
                 Comments ({comments.length})
               </h3>
 
               {/* Add Comment */}
-              <form onSubmit={handleComment} className="mb-6">
+              <div className="mb-6">
                 <textarea
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                   placeholder="Share your thoughts..."
-                  className="w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-3"
-                  rows="3"
+                  className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-3"
+                  rows="4"
                 />
                 <button
-                  type="submit"
-                  className="px-5 py-2 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition-colors"
+                  onClick={handleComment}
+                  className="px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
                 >
                   Post Comment
                 </button>
-              </form>
+              </div>
 
               {/* Comments List */}
               <div className="space-y-4">
                 {comments.length === 0 ? (
-                  <p className="text-gray-500 text-center py-8">
+                  <p className="text-center py-8 text-gray-500">
                     No comments yet. Be the first to comment!
                   </p>
                 ) : (
                   comments.map((c) => (
-                    <div
-                      key={c._id}
-                      className="bg-gray-50 rounded-lg p-4 border-2 border-gray-200"
-                    >
-                      <div className="flex items-start gap-3">
+                    <div key={c._id} className="bg-gray-50 rounded-lg p-5">
+                      <div className="flex items-start gap-4">
                         <img
                           src={c.userPhoto}
                           alt={c.userName}
-                          className="w-10 h-10 rounded-full border-2 border-gray-300"
+                          className="w-10 h-10 rounded-full"
                         />
                         <div className="flex-1">
-                          <div className="flex items-center justify-between mb-1">
+                          <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
                               <p className="font-bold text-gray-900">
                                 {c.userName}
@@ -587,9 +539,9 @@ const LessonDetails = () => {
                             {user && user.email === c.userEmail && (
                               <button
                                 onClick={() => handleDeleteComment(c._id)}
-                                className="text-red-500 hover:text-red-700 text-sm bg-gray-300 py-1 px-1.5 rounded-3xl font-semibold cursor-pointer flex items-center gap-1"
+                                className="text-red-600 hover:text-red-700 text-sm font-semibold flex items-center gap-1"
                               >
-                                Delete <MdDeleteForever />
+                                Delete <MdDeleteForever className="text-lg" />
                               </button>
                             )}
                           </div>
@@ -608,18 +560,17 @@ const LessonDetails = () => {
       {/* Report Modal */}
       {showReportModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div
-            className="bg-white rounded-lg border-4 border-black p-6 max-w-md w-full"
-            style={{ boxShadow: "8px 8px 0px 0px #000" }}
-          >
-            <h3 className="text-2xl font-black mb-4">Report Lesson</h3>
+          <div className="bg-white rounded-xl p-6 max-w-md w-full shadow-xl">
+            <h3 className="text-2xl font-bold mb-4 text-gray-900">
+              Report Lesson
+            </h3>
             <p className="text-gray-600 mb-4">
-              Please select a reason for reporting this lesson:
+              Please select a reason for reporting:
             </p>
             <select
               value={reportReason}
               onChange={(e) => setReportReason(e.target.value)}
-              className="w-full p-3 border-2 border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full p-3 border border-gray-300 rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="">Select a reason</option>
               {reportReasons.map((reason) => (
@@ -631,13 +582,13 @@ const LessonDetails = () => {
             <div className="flex gap-3">
               <button
                 onClick={handleReport}
-                className="flex-1 py-3 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition-colors"
+                className="flex-1 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors"
               >
                 Submit Report
               </button>
               <button
                 onClick={() => setShowReportModal(false)}
-                className="flex-1 py-3 bg-gray-300 text-gray-700 font-bold rounded-lg hover:bg-gray-400 transition-colors"
+                className="flex-1 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors"
               >
                 Cancel
               </button>
