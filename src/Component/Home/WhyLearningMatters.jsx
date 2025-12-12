@@ -43,7 +43,7 @@ const WhyLearningMatters = () => {
           {benefits.map((benefit, index) => (
             <div
               key={index}
-              className="group bg-[#f8d6b3] border-2  border-black px-4 py-6  cursor-pointer"
+              className="group bg-[#f8d6b3] border-2  border-black px-4 py-6"
               style={{ boxShadow: "8px 8px 0px 0px #000" }}
             >
               {/* Title */}
@@ -55,20 +55,6 @@ const WhyLearningMatters = () => {
               <Paragraph className="!text-black">{benefit.desc}</Paragraph>
             </div>
           ))}
-        </div>
-
-        {/* CTA */}
-        <div className="text-center mt-24">
-          <Link
-            to="/publiclessons"
-            className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white font-black px-12 py-6 text-xl rounded-2xl border-4 border-black transition-all duration-300 hover:-translate-y-2 hover:scale-105"
-            style={{ boxShadow: "8px 8px 0px 0px #000" }}
-          >
-            Start Learning Now →
-          </Link>
-          <p className="text-gray-500 mt-6 text-lg">
-            Join 10K+ people transforming their lives through real lessons
-          </p>
         </div>
       </Container>
     </div>
