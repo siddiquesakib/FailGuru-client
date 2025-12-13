@@ -7,6 +7,8 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { imageUpload } from "../../Utils";
 import { toast } from "react-toastify";
+import Heading from "../../Component/Shared/Heading";
+import Paragraph from "../../Component/Shared/Paragraph";
 
 const MyLessons = () => {
   const { user, isPremiumUser } = useAuth();
@@ -161,55 +163,43 @@ const MyLessons = () => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-xl font-semibold text-gray-700">
-            Loading lesson...
-          </p>
-        </div>
-      </div>
-    );
-  }
+
 
   return (
-    <div className="min-h-screen bg-[#f9f5f6] py-4 sm:py-6 md:py-8 px-2 sm:px-4">
+    <div className="min-h-screen bg-[url(/bgimg.png)] py-4 sm:py-6 md:py-8 sm:px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-4 sm:mb-6 md:mb-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black mb-2 font2">
+          <Heading className="text-2xl sm:text-3xl md:text-4xl font-black mb-2 font2">
             My Lessons
-          </h1>
-          <p className="text-sm sm:text-base text-gray-600">
+          </Heading>
+          <Paragraph className="text-sm sm:text-base text-gray-600">
             Manage all your created lessons
-          </p>
+          </Paragraph>
         </div>
 
         {/* Table */}
         <div
-          className="bg-white border-2 border-black overflow-hidden"
+          className="bg-white border-2 border-black overflow-hidden rounded-lg"
           style={{ boxShadow: "4px 4px 0px 0px #000" }}
         >
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[600px]">
+            <table className="w-full">
               <thead className="bg-gray-100 border-b-2 border-black">
                 <tr>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-black">
+                  <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-black">
                     Title
                   </th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-black">
+                  <th className="hidden sm:table-cell px-3 md:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-black">
                     Category
                   </th>
-
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-black">
+                  <th className="hidden md:table-cell px-4 py-3 text-left text-xs sm:text-sm font-black">
                     Stats
                   </th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-black">
+                  <th className="hidden lg:table-cell px-4 py-3 text-left text-xs sm:text-sm font-black">
                     Created
                   </th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-center text-xs sm:text-sm font-black">
+                  <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-center text-xs sm:text-sm font-black">
                     Actions
                   </th>
                 </tr>
@@ -220,20 +210,24 @@ const MyLessons = () => {
                     key={lesson._id}
                     className="border-b-2 border-gray-200 hover:bg-gray-50"
                   >
-                    <td className="px-3 sm:px-4 py-3 sm:py-4">
-                      <p className="font-bold text-sm sm:text-base text-gray-900 line-clamp-2">
+                    <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4">
+                      <p className="font-bold text-xs sm:text-sm md:text-base text-gray-900 line-clamp-2">
                         {lesson.title}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 mt-0.5">
                         {lesson.emotionalTone}
                       </p>
-                    </td>
-                    <td className="px-4 py-4">
-                      <span className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">
+                      {/* Show category on mobile */}
+                      <span className="sm:hidden inline-block mt-1 px-2 py-0.5 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">
                         {lesson.category}
                       </span>
                     </td>
-                    <td className="px-4 py-4">
+                    <td className="hidden sm:table-cell px-3 md:px-4 py-3 md:py-4">
+                      <span className="px-2 sm:px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">
+                        {lesson.category}
+                      </span>
+                    </td>
+                    <td className="hidden md:table-cell px-4 py-4">
                       <p className="text-xs text-gray-600">
                         ❤️ {lesson.likesCount}
                       </p>
@@ -241,28 +235,28 @@ const MyLessons = () => {
                         🔖 {lesson.favoritesCount}
                       </p>
                     </td>
-                    <td className="px-4 py-4 text-sm text-gray-600">
+                    <td className="hidden lg:table-cell px-4 py-4 text-xs sm:text-sm text-gray-600">
                       {new Date(lesson.createdDate).toLocaleDateString()}
                     </td>
-                    <td className="px-4 py-4">
-                      <div className="flex gap-2 justify-center">
+                    <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4">
+                      <div className="flex gap-1 sm:gap-2 justify-center">
                         <Link
                           to={`/publiclessons/${lesson._id}`}
-                          className="px-3 py-1 bg-blue-500 text-white text-xs font-bold rounded hover:bg-blue-600"
+                          className="px-2 sm:px-3 py-1 sm:py-1.5 bg-blue-500 text-white text-xs font-bold rounded hover:bg-blue-600"
                           title="View Details"
                         >
                           👁️
                         </Link>
                         <button
                           onClick={() => openUpdateModal(lesson)}
-                          className="px-3 py-1 bg-purple-500 text-white text-xs font-bold rounded hover:bg-purple-600"
+                          className="px-2 sm:px-3 py-1 sm:py-1.5 bg-purple-500 text-white text-xs font-bold rounded hover:bg-purple-600"
                           title="Update"
                         >
                           ✏️
                         </button>
                         <button
                           onClick={() => handleDelete(lesson._id)}
-                          className="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded hover:bg-red-600"
+                          className="px-2 sm:px-3 py-1 sm:py-1.5 bg-red-500 text-white text-xs font-bold rounded hover:bg-red-600"
                           title="Delete"
                         >
                           🗑️
@@ -276,11 +270,11 @@ const MyLessons = () => {
           </div>
 
           {lessons.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-2xl font-bold text-gray-400 mb-4">
+            <div className="text-center py-8 sm:py-12 px-4">
+              <p className="text-xl sm:text-2xl font-bold text-gray-400 mb-2 sm:mb-4">
                 No lessons yet
               </p>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 Create your first lesson to get started!
               </p>
             </div>
@@ -290,17 +284,19 @@ const MyLessons = () => {
 
       {/* Update Modal */}
       {showUpdateModal && (
-        <div className="fixed inset-0 bg-  bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
           <div
-            className="bg-white rounded-lg border-2 border-black p-6 max-w-2xl w-full max-h-[95vh] overflow-y-auto"
+            className="bg-white rounded-lg border-2 border-black p-4 sm:p-6 w-full max-w-2xl max-h-[95vh] overflow-y-auto"
             style={{ boxShadow: "8px 8px 0px 0px #000" }}
           >
-            <h2 className="text-3xl font-black mb-6">Update Lesson</h2>
+            <h2 className="text-2xl sm:text-3xl font-black mb-4 sm:mb-6">
+              Update Lesson
+            </h2>
 
             <form onSubmit={handleSubmit(onUpdate)}>
               {/* Title */}
-              <div className="mb-4">
-                <label className="block text-sm font-bold mb-2">
+              <div className="mb-3 sm:mb-4">
+                <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
                   Lesson Title *
                 </label>
                 <input
@@ -316,7 +312,7 @@ const MyLessons = () => {
                       message: "Title must be less than 100 characters",
                     },
                   })}
-                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg"
+                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
                 {errors.title && (
                   <p className="text-red-500 text-xs mt-1">
@@ -326,8 +322,8 @@ const MyLessons = () => {
               </div>
 
               {/* Description */}
-              <div className="mb-4">
-                <label className="block text-sm font-bold mb-2">
+              <div className="mb-3 sm:mb-4">
+                <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
                   Description *
                 </label>
                 <textarea
@@ -342,8 +338,8 @@ const MyLessons = () => {
                       message: "Description must be less than 1000 characters",
                     },
                   })}
-                  rows="6"
-                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg"
+                  rows="5"
+                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
                 {errors.description && (
                   <p className="text-red-500 text-xs mt-1">
@@ -353,16 +349,16 @@ const MyLessons = () => {
               </div>
 
               {/* Category & Emotional Tone */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4">
                 <div>
-                  <label className="block text-sm font-bold mb-2">
+                  <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
                     Category *
                   </label>
                   <select
                     {...register("category", {
                       required: "Category is required",
                     })}
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg"
+                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
                     {categories.map((cat) => (
                       <option key={cat} value={cat}>
@@ -377,14 +373,14 @@ const MyLessons = () => {
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-bold mb-2">
+                  <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
                     Emotional Tone *
                   </label>
                   <select
                     {...register("emotionalTone", {
                       required: "Emotional tone is required",
                     })}
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg"
+                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
                     {emotionalTones.map((tone) => (
                       <option key={tone} value={tone}>
@@ -401,15 +397,15 @@ const MyLessons = () => {
               </div>
 
               {/* Image */}
-              <div className="mb-4">
-                <label className="block text-sm font-bold mb-2">
+              <div className="mb-3 sm:mb-4">
+                <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
                   Upload New Image (Optional)
                 </label>
                 <input
                   type="file"
                   {...register("image")}
                   accept="image/*"
-                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg"
+                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 file:mr-3 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-purple-50 file:text-purple-700"
                 />
                 <input type="hidden" {...register("currentImage")} />
                 <p className="text-xs text-gray-500 mt-1">
@@ -418,16 +414,16 @@ const MyLessons = () => {
               </div>
 
               {/* Privacy & Access Level */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
                 <div>
-                  <label className="block text-sm font-bold mb-2">
+                  <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
                     Privacy *
                   </label>
                   <select
                     {...register("privacy", {
                       required: "Privacy is required",
                     })}
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg"
+                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
                     <option value="Public">Public</option>
                     <option value="Private">Private</option>
@@ -439,7 +435,7 @@ const MyLessons = () => {
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-bold mb-2">
+                  <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
                     Access Level *
                   </label>
                   <select
@@ -447,8 +443,8 @@ const MyLessons = () => {
                       required: "Access level is required",
                     })}
                     disabled={!isPremiumUser}
-                    className={`w-full px-4 py-2 border-2 border-gray-300 rounded-lg ${
-                      !isPremiumUser ? "bg-gray-100" : ""
+                    className={`w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                      !isPremiumUser ? "bg-gray-100 cursor-not-allowed" : ""
                     }`}
                   >
                     <option value="Free">Free</option>
@@ -465,10 +461,10 @@ const MyLessons = () => {
               </div>
 
               {/* Buttons */}
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <button
                   type="submit"
-                  className="flex-1 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600"
+                  className="w-full py-2.5 sm:py-3 bg-green-500 text-white text-sm sm:text-base font-bold rounded-lg hover:bg-green-600 transition-colors"
                 >
                   Update Lesson
                 </button>
@@ -478,7 +474,7 @@ const MyLessons = () => {
                     setShowUpdateModal(false);
                     reset();
                   }}
-                  className="flex-1 py-3 bg-gray-300 text-gray-700 font-bold rounded-lg hover:bg-gray-400"
+                  className="w-full py-2.5 sm:py-3 bg-gray-300 text-gray-700 text-sm sm:text-base font-bold rounded-lg hover:bg-gray-400 transition-colors"
                 >
                   Cancel
                 </button>

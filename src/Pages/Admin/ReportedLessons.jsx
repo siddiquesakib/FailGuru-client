@@ -4,6 +4,8 @@ import React from "react";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { Link } from "react-router";
+import Heading from "../../Component/Shared/Heading";
+import Paragraph from "../../Component/Shared/Paragraph";
 
 const ReportedLessons = () => {
   // Fetch all reports
@@ -68,57 +70,65 @@ const ReportedLessons = () => {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4">
+    <div className="min-h-screen bg-[url(/bgimg.png)] py-4 sm:py-6 md:py-8 sm:px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-black mb-2 uppercase">
+        <div className="mb-4 sm:mb-6 md:mb-8">
+          <Heading className="text-2xl sm:text-3xl md:text-4xl font-black mb-2 uppercase">
             Reported Lessons
-          </h1>
+          </Heading>
+          <Paragraph className="text-sm sm:text-base text-gray-600">
+            Manage reported content
+          </Paragraph>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6 md:mb-8">
           <div
-            className="bg-red-50 border-2 border-black rounded-lg p-4"
+            className="bg-red-50 border-2 border-black p-4 sm:p-6"
             style={{ boxShadow: "4px 4px 0px 0px #000" }}
           >
-            <p className="text-3xl font-black text-red-600">{reports.length}</p>
-            <p className="text-sm font-bold text-gray-600">Total Reports</p>
+            <p className="text-2xl sm:text-3xl font-black text-red-600">
+              {reports.length}
+            </p>
+            <p className="text-xs sm:text-sm font-bold text-gray-600">
+              Total Reports
+            </p>
           </div>
         </div>
 
         {/* Reports Table */}
         {reports.length === 0 ? (
           <div
-            className="bg-white rounded-lg border-2 border-black p-12 text-center"
+            className="bg-white border-2 border-black p-8 sm:p-12 text-center"
             style={{ boxShadow: "8px 8px 0px 0px #000" }}
           >
-            <p className="text-2xl font-bold text-gray-400 mb-2">No Reports!</p>
-            <p className="text-gray-600">All lessons are clean. Great job!</p>
+            <p className="text-xl sm:text-2xl font-bold text-gray-400 mb-2">
+              No Reports!
+            </p>
+            <p className="text-sm sm:text-base text-gray-600">
+              All lessons are clean. Great job!
+            </p>
           </div>
         ) : (
           <div
-            className="bg-white rounded-lg border-2 border-black overflow-hidden"
+            className="bg-white border-2 border-black overflow-hidden"
             style={{ boxShadow: "8px 8px 0px 0px #000" }}
           >
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-red-50 border-b-2 border-black">
                   <tr>
-                    <th className="px-4 py-3 text-left text-sm font-black">
+                    <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-black">
                       Lesson
                     </th>
-                    <th className="px-4 py-3 text-left text-sm font-black">
-                      Total Reports
+                    <th className="hidden sm:table-cell px-3 md:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-black">
+                      Reports
                     </th>
-                    <th className="px-4 py-3 text-left text-sm font-black">
+                    <th className="hidden md:table-cell px-4 py-3 text-left text-xs sm:text-sm font-black">
                       Reason
                     </th>
-                    <th className="px-4 py-3 text-left text-sm font-black">
-                      View
-                    </th>
-                    <th className="px-4 py-3 text-center text-sm font-black">
+                    <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-center text-xs sm:text-sm font-black">
                       Actions
                     </th>
                   </tr>
@@ -130,30 +140,50 @@ const ReportedLessons = () => {
                       className="border-b-2 border-gray-200 hover:bg-red-50/50 transition-colors"
                     >
                       {/* Lesson Info */}
-                      <td className="px-4 py-4">
-                        <div className="flex items-center gap-3">
-                          <div>
-                            <p className="font-bold text-gray-900 line-clamp-1">
-                              {report.lessonTitle}
-                            </p>
+                      <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4">
+                        <div>
+                          <p className="font-bold text-xs sm:text-sm md:text-base text-gray-900 line-clamp-2">
+                            {report.lessonTitle}
+                          </p>
+                          {/* Show report count on mobile */}
+                          <p className="sm:hidden text-xs text-red-600 font-semibold mt-1">
+                            🚩 {report.reporters.length} report(s)
+                          </p>
+                          {/* Show reasons on mobile/tablet */}
+                          <div className="md:hidden flex flex-wrap gap-1 mt-1">
+                            {report.reasons
+                              .slice(0, 2)
+                              .map((reasonObj, index) => (
+                                <span
+                                  key={index}
+                                  className="px-2 py-0.5 text-xs font-bold rounded-full bg-red-100 text-red-700"
+                                >
+                                  {reasonObj.reason}
+                                </span>
+                              ))}
+                            {report.reasons.length > 2 && (
+                              <span className="text-xs text-gray-500">
+                                +{report.reasons.length - 2} more
+                              </span>
+                            )}
                           </div>
                         </div>
                       </td>
 
-                      {/* Reporter */}
-                      <td className="px-4 py-4">
-                        <p className="font-semibold text-sm">
-                          {report.reporters.length || 0}
+                      {/* Reporter Count */}
+                      <td className="hidden sm:table-cell px-3 md:px-4 py-3 md:py-4">
+                        <p className="font-bold text-sm sm:text-base text-red-600">
+                          {report.reporters.length}
                         </p>
                       </td>
 
                       {/* Reason */}
-                      <td className="px-4 py-4">
+                      <td className="hidden md:table-cell px-4 py-4">
                         <div className="flex flex-wrap gap-1">
                           {report.reasons.map((reasonObj, index) => (
                             <span
                               key={index}
-                              className="px-2 py-1 text-xs font-bold rounded-full bg-red-100 text-red-700"
+                              className="px-2 py-1 text-xs font-bold rounded-full bg-red-100 text-red-700 whitespace-nowrap"
                             >
                               {reasonObj.reason}
                             </span>
@@ -161,30 +191,26 @@ const ReportedLessons = () => {
                         </div>
                       </td>
 
-                      {/* View */}
-                      <td className="">
-                        <div className="flex gap-2 justify-center flex-wrap">
+                      {/* Actions */}
+                      <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4">
+                        <div className="flex flex-col sm:flex-row gap-1 sm:gap-2 justify-center items-center">
                           <Link
                             to={`/publiclessons/${report.lessonId}`}
-                            className="px-3 py-1 bg-blue-500 text-white text-xs font-bold rounded hover:bg-blue-600 transition-colors"
+                            className="w-full sm:w-auto px-2 sm:px-3 py-1 sm:py-1.5 bg-blue-500 text-white text-xs font-bold rounded hover:bg-blue-600 transition-colors text-center whitespace-nowrap"
                           >
-                            View
+                            👁️ <span className="hidden sm:inline">View</span>
                           </Link>
-                        </div>
-                      </td>
-                      <td className="px-4 py-4">
-                        <div className="flex gap-2 justify-center flex-wrap">
                           <button
                             onClick={() => handleIgnoreAllReports(report._id)}
-                            className="px-3 py-1 bg-gray-500 text-white text-xs font-bold rounded hover:bg-gray-600 cursor-pointer transition-colors"
+                            className="w-full sm:w-auto px-2 sm:px-3 py-1 sm:py-1.5 bg-gray-500 text-white text-xs font-bold rounded hover:bg-gray-600 cursor-pointer transition-colors whitespace-nowrap"
                           >
-                            Ignore
+                            ✓ <span className="hidden sm:inline">Ignore</span>
                           </button>
                           <button
                             onClick={() => handleDeleteLesson(report.lessonId)}
-                            className="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded hover:bg-red-600 cursor-pointer transition-colors"
+                            className="w-full sm:w-auto px-2 sm:px-3 py-1 sm:py-1.5 bg-red-500 text-white text-xs font-bold rounded hover:bg-red-600 cursor-pointer transition-colors whitespace-nowrap"
                           >
-                            Delete
+                            🗑️ <span className="hidden sm:inline">Delete</span>
                           </button>
                         </div>
                       </td>

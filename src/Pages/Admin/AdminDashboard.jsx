@@ -2,6 +2,10 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router";
+import Heading from "../../Component/Shared/Heading";
+import Paragraph from "../../Component/Shared/Paragraph";
+import { CheckCheck, Flag, FolderKanban, User, User2Icon } from "lucide-react";
+import { CiTrophy } from "react-icons/ci";
 
 const AdminDashboard = () => {
   // Fetch admin statistics
@@ -73,32 +77,38 @@ const AdminDashboard = () => {
   console.log(topCreator);
 
   return (
-    <div className="min-h-screen bg-[#f9f5f6] py-8 px-4">
+    <div className="min-h-screen bg-[url(/bgimg.png)] py-8 md:px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-black mb-2 font2">👑 Admin Dashboard</h1>
-          <p className="text-gray-600">
+          <Heading className="text-4xl font-black mb-2 font2">
+            {" "}
+            Admin Dashboard
+          </Heading>
+          <Paragraph className="text-gray-600">
             Welcome back! Here's what's happening today.
-          </p>
+          </Paragraph>
         </div>
 
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Total Users */}
           <div
-            className="bg-white rounded-lg border-2 border-black p-6"
+            className="bg-white  border-2 border-black p-6"
             style={{ boxShadow: "6px 6px 0px 0px #000" }}
           >
             <div className="flex items-center justify-between mb-4">
-              <div className="text-4xl">👥</div>
+              <div className="text-4xl">
+                {" "}
+                <User size={25} />
+              </div>
               <span className="text-sm font-bold text-gray-500">USERS</span>
             </div>
             <h3 className="text-3xl font-black mb-1">{users.length || 0}</h3>
             <p className="text-sm text-gray-600">Total registered users</p>
             <Link
               to="/dashboard/manage-users"
-              className="mt-4 inline-block text-sm font-bold text-purple-600 hover:text-purple-700"
+              className="mt-4 inline-block text-sm font-bold text-gray-500 hover:text-gray-700"
             >
               Manage Users →
             </Link>
@@ -106,18 +116,20 @@ const AdminDashboard = () => {
 
           {/* Total Public Lessons */}
           <div
-            className="bg-white rounded-lg border-2 border-black p-6"
+            className="bg-white  border-2 border-black p-6"
             style={{ boxShadow: "6px 6px 0px 0px #000" }}
           >
             <div className="flex items-center justify-between mb-4">
-              <div className="text-4xl">📚</div>
+              <div className="text-4xl">
+                <FolderKanban size={25} />{" "}
+              </div>
               <span className="text-sm font-bold text-gray-500">LESSONS</span>
             </div>
             <h3 className="text-3xl font-black mb-1">{lessons.length || 0}</h3>
             <p className="text-sm text-gray-600">Public lessons available</p>
             <Link
               to="/dashboard/manage-lessons"
-              className="mt-4 inline-block text-sm font-bold text-purple-600 hover:text-purple-700"
+              className="mt-4 inline-block text-sm font-bold text-gray-500 hover:text-gray-700"
             >
               Manage Lessons →
             </Link>
@@ -125,11 +137,14 @@ const AdminDashboard = () => {
 
           {/* Total Reported Lessons */}
           <div
-            className="bg-white rounded-lg border-2 border-black p-6"
+            className="bg-white  border-2 border-black p-6"
             style={{ boxShadow: "6px 6px 0px 0px #000" }}
           >
             <div className="flex items-center justify-between mb-4">
-              <div className="text-4xl">🚨</div>
+              <div className="text-4xl">
+                {" "}
+                <Flag color="red" size={30} />{" "}
+              </div>
               <span className="text-sm font-bold text-gray-500">REPORTS</span>
             </div>
             <h3 className="text-3xl font-black mb-1 text-red-600">
@@ -146,11 +161,14 @@ const AdminDashboard = () => {
 
           {/* Today's New Lessons */}
           <div
-            className="bg-linear-to-br from-purple-500 to-pink-500 rounded-lg border-2 border-black p-6 text-white"
+            className="bg-linear-to-br from-purple-500 to-pink-500  border-2 border-black p-6 text-white"
             style={{ boxShadow: "6px 6px 0px 0px #000" }}
           >
             <div className="flex items-center justify-between mb-4">
-              <div className="text-4xl">✨</div>
+              <div className="text-4xl">
+                {" "}
+                <CheckCheck size={25} />
+              </div>
               <span className="text-sm font-bold text-purple-100">TODAY</span>
             </div>
             <h3 className="text-3xl font-black mb-1">
@@ -165,27 +183,31 @@ const AdminDashboard = () => {
 
         {/* Most Active Contributors */}
         <div
-          className="bg-white rounded-lg border-2 border-black p-6 mb-8"
+          className="bg-white  border-2 border-black p-6 mb-8"
           style={{ boxShadow: "8px 8px 0px 0px #000" }}
         >
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-black">🏆 Most Active Contributors</h2>
+            <h1 className="text-2xl font-black">
+              <CiTrophy size={30} /> Most Active Contributors
+            </h1>
           </div>
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-purple-400 transition-all">
+          <div className="flex items-center justify-between py-4 bg-gray-50  border-2 border-gray-200 hover:border-purple-400 transition-all">
             <div className="flex items-center gap-4">
               <div className="text-2xl font-black text-gray-400"></div>
               <img
                 src={topCreator.photoURL || "https://i.pravatar.cc/150"}
                 alt={topCreator.name}
-                className="w-12 h-12 rounded-full border-2 border-purple-500"
+                className="w-10 md:w-12 hidden md:block rounded-full border-2 border-purple-500"
               />
               <div>
-                <p className="font-bold text-gray-900">{topCreator.name}</p>
-                <p className="text-sm text-gray-500">{topCreator.email}</p>
+                <p className="font-medium text-sm md:text-[20px] text-gray-900">
+                  {topCreator.name}
+                </p>
+                <p className="text-xs text-gray-500">{topCreator.email}</p>
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-2xl font-black text-purple-600">
+            <div className="text-right pr-2">
+              <p className="text-2xl font-black text-black">
                 {topCreator.totalLessonsCreated}
               </p>
               <p className="text-xs text-gray-500">lessons created</p>
@@ -195,18 +217,18 @@ const AdminDashboard = () => {
 
         {/* Quick Actions */}
         <div
-          className="bg-white rounded-lg border-2 border-black p-6"
+          className="bg-white  border-2 border-black p-6"
           style={{ boxShadow: "8px 8px 0px 0px #000" }}
         >
           <h2 className="text-2xl font-black mb-6">⚡ Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Link
               to="/dashboard/manage-users"
-              className="flex items-center gap-3 p-4 bg-purple-50 border-2 border-purple-200 rounded-lg hover:bg-purple-100 transition-all"
+              className="flex items-center gap-3 p-4 bg-purple-50 border-2 border-purple-200  hover:bg-purple-100 transition-all"
             >
               <span className="text-2xl">👥</span>
               <div>
-                <p className="font-bold text-purple-900">Manage Users</p>
+                <p className="font-bold z">Manage Users</p>
                 <p className="text-xs text-purple-600">
                   View and edit user roles
                 </p>
@@ -215,7 +237,7 @@ const AdminDashboard = () => {
 
             <Link
               to="/dashboard/manage-lessons"
-              className="flex items-center gap-3 p-4 bg-blue-50 border-2 border-blue-200 rounded-lg hover:bg-blue-100 transition-all"
+              className="flex items-center gap-3 p-4 bg-blue-50 border-2 border-blue-200  hover:bg-blue-100 transition-all"
             >
               <span className="text-2xl">📖</span>
               <div>
@@ -228,7 +250,7 @@ const AdminDashboard = () => {
 
             <Link
               to="/dashboard/reported-lessons"
-              className="flex items-center gap-3 p-4 bg-red-50 border-2 border-red-200 rounded-lg hover:bg-red-100 transition-all"
+              className="flex items-center gap-3 p-4 bg-red-50 border-2 border-red-200  hover:bg-red-100 transition-all"
             >
               <span className="text-2xl">🚨</span>
               <div>
