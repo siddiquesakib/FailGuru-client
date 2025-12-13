@@ -79,13 +79,15 @@ const Pricing = () => {
       <Container className="my-20 ">
         {isPremiumUser ? (
           <div className="text-center mb-12">
-            <h1 className="text-3xl md:text-5xl md:w-5xl mx-auto font-black mb-4 font2">
+            <Heading className="text-3xl md:text-5xl md:w-5xl mx-auto font-black mb-4 font2">
               You're officially a lifetime Premium member.
-            </h1>
-            <p className="text-xl text-gray-600">You can cancel anytime</p>
+            </Heading>
+            <Paragraph className="text-xl text-gray-600">
+              You can cancel anytime
+            </Paragraph>
             <button
               onClick={handleCancel}
-              className="mt-10 px-6 py-2.5 text-xl font-semibold cursor-pointer text-black rounded transition-all relative"
+              className="mt-10 px-6 py-2.5 text-xl border-2 border-black font-semibold cursor-pointer text-black rounded transition-all relative"
               style={{
                 backgroundColor: "#ffdb58",
                 boxShadow: "4px 4px 0px 0px #000",
