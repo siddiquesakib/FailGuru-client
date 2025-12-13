@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { CircleUserRound, HeartPlus, LogOut } from "lucide-react";
+import Logo from "../Logo/Logo";
 
 const Navbar = () => {
   const { user, logOut, isPremiumUser } = useAuth();
@@ -61,14 +62,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link
-            to="/"
-            onClick={closeMobileMenu}
-            className="text-xl font-bold"
-            style={{ color: "#ffdb58" }}
-          >
-            Fail Guru
-          </Link>
+         <Logo/>
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center">

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
+import Logo from "../Logo/Logo";
 
 const Footer = () => {
   return (
@@ -9,18 +10,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
           {/* Logo & Description Section */}
           <div className="flex flex-col gap-4 sm:col-span-2 md:col-span-1">
-            <Link
-              to="/"
-              className="text-2xl sm:text-3xl font-black font2 inline-block px-3 sm:px-4 py-2 rounded w-fit"
-              style={{
-                color: "#000",
-                backgroundColor: "#ffdb58",
-                boxShadow: "4px 4px 0px 0px #000",
-                border: "2px solid #000",
-              }}
-            >
-              Fail Guru
-            </Link>
+            <Logo />
             <p className="text-gray-700 text-xs sm:text-sm font-medium">
               Learn from failures, grow through experiences. Share your life
               lessons and inspire others on their journey.
@@ -29,9 +19,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-black mb-4 text-black font2">
-              Quick Links
-            </h3>
+            <h3 className="text-lg font-black mb-4 text-black ">Quick Links</h3>
             <div className="flex flex-col gap-2">
               <Link
                 to="/"
@@ -68,7 +56,7 @@ const Footer = () => {
 
           {/* Social Media Section */}
           <div>
-            <h3 className="text-lg font-black mb-4 text-black font2">
+            <h3 className="text-lg font-black mb-4 text-black">
               Connect With Us
             </h3>
             <p className="text-gray-700 text-sm font-medium mb-4">
