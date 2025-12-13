@@ -1,6 +1,24 @@
-import { NavLink } from "react-router"; 
+import { NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import useRole from "../../hooks/useRole";
+import { MdOutlineDashboardCustomize } from "react-icons/md";
+import {
+  BookOpenCheck,
+  ChevronLeft,
+  ChevronRight,
+  Crown,
+  Flag,
+  FolderKanban,
+  FolderPlus,
+  HeartPlus,
+  House,
+  LogOut,
+  User,
+  User2,
+  UserPen,
+  Users,
+  UserStar,
+} from "lucide-react";
 
 const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   const { user, logOut } = useAuth();
@@ -10,25 +28,23 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   console.log("Current Role:", role, "Is Admin:", isAdmin);
 
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
-      isActive
-        ? "bg-purple-600 text-white"
-        : "text-gray-700 hover:bg-purple-100"
+    `flex items-center gap-3 px-2 py-2 rounded-lg transition-all ${
+      isActive ? "bg-black text-white" : "text-gray-800 hover:bg-gray-300"
     } ${isCollapsed ? "justify-center" : ""}`;
 
   return (
     <div
       className={`${
-        isCollapsed ? "w-20" : "w-64"
-      } min-h-screen bg-white border-r-2 border-black p-4 transition-all duration-300 relative`}
+        isCollapsed ? "w-15 md:w-20" : "w-40 md:w-50"
+      } min-h-screen bg-[#f6f7f9] border-r-2 border-black p-4 transition-all duration-300 relative`}
     >
       {/* Collapse Toggle Button */}
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="absolute -right-3 top-6 bg-purple-600 text-white w-6 h-6 rounded-full flex items-center justify-center shadow-lg hover:bg-purple-700 transition-colors z-10"
+        className="absolute -right-3 top-6 bg-black text-white w-6 h-6 rounded-full flex items-center justify-center shadow-lg hover:bg-black transition-colors z-10"
         title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
       >
-        {isCollapsed ? "→" : "←"}
+        {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft />}
       </button>
 
       {/* User Info */}
@@ -37,7 +53,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
           <img
             src={user?.photoURL || "https://i.pravatar.cc/150"}
             alt="User"
-            className="w-10 h-10 rounded-full border-2 border-purple-500"
+            className="w-9 h-9 rounded-full border-2 border-black"
             title={user?.displayName || "User"}
           />
         </div>
@@ -46,14 +62,18 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
           <img
             src={user?.photoURL || "https://i.pravatar.cc/150"}
             alt="User"
-            className="w-12 h-12 rounded-full border-2 border-purple-500"
+            className="w-9 h-9 rounded-full border-2 border-black"
           />
           <div className="overflow-hidden">
             <p className="font-bold text-sm truncate">
               {user?.displayName || "User"}
             </p>
             <p className="text-xs text-gray-500">
-              {isAdmin ? "👑 Admin" : "👤 Member"}
+              {isAdmin ? (
+                <Crown color="#f6b550" size={15} />
+              ) : (
+                <User color="#000" size={17} />
+              )}
             </p>
           </div>
         </div>
@@ -63,36 +83,46 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
       <nav className="space-y-2">
         {/* user */}
         <NavLink to="/dashboard" end className={linkClass} title="Dashboard">
-          <span className="text-lg">📊</span>
-          {!isCollapsed && <span>Dashboard</span>}
+          <span className="text-lg">
+            <MdOutlineDashboardCustomize size={17} />
+          </span>
+          {!isCollapsed && <span className="text-[13px]">Dashboard</span>}
         </NavLink>
         <NavLink to="/dashboard/profile" className={linkClass} title="Profile">
-          <span className="text-lg">👤</span>
-          {!isCollapsed && <span>Profile</span>}
+          <span className="text-lg">
+            <UserPen size={17} />
+          </span>
+          {!isCollapsed && <span className="text-[13px]">Profile</span>}
         </NavLink>
         <NavLink
           to="/dashboard/add-lesson"
           className={linkClass}
           title="Add Lesson"
         >
-          <span className="text-lg">➕</span>
-          {!isCollapsed && <span>Add Lesson</span>}
+          <span className="text-lg">
+            <FolderPlus size={17} />
+          </span>
+          {!isCollapsed && <span className="text-[13px]">Add Lesson</span>}
         </NavLink>
         <NavLink
           to="/dashboard/my-lesson"
           className={linkClass}
           title="My Lessons"
         >
-          <span className="text-lg">📚</span>
-          {!isCollapsed && <span>My Lessons</span>}
+          <span className="text-lg">
+            <BookOpenCheck size={17} />
+          </span>
+          {!isCollapsed && <span className="text-[13px]">My Lessons</span>}
         </NavLink>
         <NavLink
           to="/dashboard/my-favorite"
           className={linkClass}
           title="My Favorites"
         >
-          <span className="text-lg">❤️</span>
-          {!isCollapsed && <span>My Favorites</span>}
+          <span className="text-lg">
+            <HeartPlus size={17} />
+          </span>
+          {!isCollapsed && <span className="text-[13px]">My Favorites</span>}
         </NavLink>
 
         {/* admin  */}
@@ -110,32 +140,46 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
               className={linkClass}
               title="Admin Home"
             >
-              <span className="text-lg">🏠</span>
-              {!isCollapsed && <span>Admin Home</span>}
+              <span className="text-lg">
+                <House size={17} />
+              </span>
+              {!isCollapsed && <span className="text-[13px]">Admin Home</span>}
             </NavLink>
             <NavLink
               to="/dashboard/manage-users"
               className={linkClass}
               title="Manage Users"
             >
-              <span className="text-lg">👥</span>
-              {!isCollapsed && <span>Manage Users</span>}
+              <span className="text-lg">
+                <Users size={17} />
+              </span>
+              {!isCollapsed && (
+                <span className="text-[13px]">Manage Users</span>
+              )}
             </NavLink>
             <NavLink
               to="/dashboard/manage-lessons"
               className={linkClass}
               title="Manage Lessons"
             >
-              <span className="text-lg">📖</span>
-              {!isCollapsed && <span>Manage Lessons</span>}
+              <span className="text-lg">
+                <FolderKanban size={17} />
+              </span>
+              {!isCollapsed && (
+                <span className="text-[13px]">Manage Lessons</span>
+              )}
             </NavLink>
             <NavLink
               to="/dashboard/reported-lessons"
               className={linkClass}
               title="Reported Lessons"
             >
-              <span className="text-lg">🚨</span>
-              {!isCollapsed && <span>Reported Lessons</span>}
+              <span className="text-lg">
+                <Flag size={17} />
+              </span>
+              {!isCollapsed && (
+                <span className="text-[13px]">Reported Lessons</span>
+              )}
             </NavLink>
           </>
         )}
@@ -149,8 +193,10 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
             }`}
             title="Logout"
           >
-            <span className="text-lg">🚪</span>
-            {!isCollapsed && <span>Logout</span>}
+            <span className="text-lg">
+              <LogOut />
+            </span>
+            {!isCollapsed && <span className="text-[13px]">Logout</span>}
           </button>
         </div>
       </nav>
