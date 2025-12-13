@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import Container from "../Shared/Container";
+import Heading from "../Shared/Heading";
+import Button from "../Shared/Button";
+import Paragraph from "../Shared/Paragraph";
 
 const Newsletter = () => {
   const [email, setEmail] = useState("");
@@ -13,43 +17,54 @@ const Newsletter = () => {
   };
 
   return (
-    <div className="py-20 bg-black">
-      <div className="max-w-md mx-auto">
-        <div
-          className="border-4 border-white p-12 text-center font-black"
-          style={{
-            boxShadow: "12px 12px 0px 0px #000",
-            background: "linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%)",
-          }}
-        >
-          {/* Title */}
-          <h2 className="text-4xl md:text-5xl text-white mb-12 uppercase tracking-wider flex items-center justify-center gap-3">
-            ✉️ Stay Updated
-          </h2>
+    <div
+      className="max-w-6xl mx-auto pb-12 pt-2  my-20 border-2 border-black bg-[#fdfd96]"
+      style={{
+        boxShadow: "8px 8px 0px 0px #000",
+      }}
+    >
+      <div className=" max-w-3xl  px-20 mx-auto">
+        <div className=" text-center font-black">
+          <div className="flex mx-auto">
+            <Button className="mb-6">newsletter</Button>
+          </div>
+          {/* Header */}
+          <div className="text-center mb-10">
+            <Heading>Join our exclusive learning newsletter.</Heading>
+            <Paragraph>
+              Receive insider tips, updates and resources to enhance your
+              teaching, course creation, and platform mastery.
+            </Paragraph>
+          </div>
 
           {/* Email Form */}
           <form onSubmit={handleSubscribe} className="space-y-6">
-            <div className="flex gap-3">
+            <div className="relative max-w-[400px]">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter email"
-                className="flex-1 px-6 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/50 text-white placeholder-white/70   text-lg font-semibold focus:outline-none focus:border-white"
+                placeholder="example@mail.com"
+                className="w-full pl-6 pr-16 py-4 bg-white rounded-full border-3 border-black text-black font-semibold focus:outline-none"
                 required
               />
               <button
                 type="submit"
-                className="bg-[#ffdb58] text-black px-8 py-4 text-xl font-black uppercase border-4 border-black   hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300 whitespace-nowrap"
-                style={{ boxShadow: "6px 6px 0px 0px #000" }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "3px 3px 0px 0px #000";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "6px 6px 0px 0px #000";
-                }}
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
               >
-                Subscribe
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
               </button>
             </div>
           </form>

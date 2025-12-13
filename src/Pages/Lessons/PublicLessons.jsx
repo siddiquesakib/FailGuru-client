@@ -6,7 +6,6 @@ import Container from "../../Component/Shared/Container";
 import useAuth from "../../hooks/useAuth";
 import Heading from "../../Component/Shared/Heading";
 import Paragraph from "../../Component/Shared/Paragraph";
-import Button from "../../Component/Shared/Button";
 
 const PublicLessons = () => {
   const { isPremiumUser } = useAuth();
