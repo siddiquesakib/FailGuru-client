@@ -74,7 +74,7 @@ const ManageLessons = () => {
     <div>
       {/* Table */}
       <div
-        className="bg-white  border-4 border-black overflow-hidden"
+        className="bg-white  border-2 border-black overflow-hidden"
         style={{ boxShadow: "8px 8px 0px 0px #000" }}
       >
         <div className="overflow-x-auto">

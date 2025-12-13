@@ -113,7 +113,7 @@ const MyFavorites = () => {
 
         {/* Filters */}
         <div
-          className="bg-white rounded-lg border-4 border-black p-6 mb-6"
+          className="bg-white rounded-lg border-2 border-black p-6 mb-6"
           style={{ boxShadow: "8px 8px 0px 0px #000" }}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -155,7 +155,7 @@ const MyFavorites = () => {
         {/* Table */}
         {filteredFavorites?.length === 0 ? (
           <div
-            className="bg-white rounded-lg border-4 border-black p-12 text-center"
+            className="bg-white rounded-lg border-2 border-black p-12 text-center"
             style={{ boxShadow: "8px 8px 0px 0px #000" }}
           >
             <p className="text-2xl font-bold text-gray-400 mb-4">
@@ -175,7 +175,7 @@ const MyFavorites = () => {
           </div>
         ) : (
           <div
-            className="bg-white rounded-lg border-4 border-black overflow-hidden"
+            className="bg-white rounded-lg border-2 border-black overflow-hidden"
             style={{ boxShadow: "8px 8px 0px 0px #000" }}
           >
             <div className="overflow-x-auto">

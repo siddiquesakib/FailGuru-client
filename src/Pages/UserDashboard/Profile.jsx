@@ -39,7 +39,7 @@ const Profile = () => {
       <div className="max-w-4xl mx-auto">
         {/* Profile Header Card */}
         <div
-          className="bg-white rounded-lg border-4 border-black p-8"
+          className="bg-white rounded-lg border-2 border-black p-8"
           style={{ boxShadow: "8px 8px 0px 0px #000" }}
         >
           <div className="flex flex-col md:flex-row items-center gap-8">
@@ -50,7 +50,7 @@ const Profile = () => {
                   <img
                     src={editedPhoto || user?.photoURL}
                     alt={user?.displayName}
-                    className="w-40 h-40 rounded-full border-4 border-[#ffdb58] object-cover"
+                    className="w-40 h-40 rounded-full border-2 border-[#ffdb58] object-cover"
                   />
                   <input
                     type="text"
@@ -65,7 +65,7 @@ const Profile = () => {
                   <img
                     src={user?.photoURL}
                     alt={user?.displayName}
-                    className="w-40 h-40 rounded-full border-4 border-[#ffdb58] object-cover"
+                    className="w-40 h-40 rounded-full border-2 border-[#ffdb58] object-cover"
                   />
                   {isPremiumUser && (
                     <span className="absolute -top-2 -right-2 bg-[#ffdb58] text-black text-xs font-bold px-2 py-1 rounded-full border-2 border-black">
@@ -114,7 +114,7 @@ const Profile = () => {
                   <>
                     <button
                       onClick={handleEditProfile}
-                      className="px-6 py-3 bg-green-500 text-white font-bold rounded-lg border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                      className="px-6 py-3 bg-green-500 text-white font-bold rounded-lg border-2 border-black transition-all relative"
                       style={{ boxShadow: "4px 4px 0px 0px #000" }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.boxShadow =
@@ -129,7 +129,7 @@ const Profile = () => {
                     </button>
                     <button
                       onClick={handleCancelEdit}
-                      className="px-6 py-3 bg-gray-300 text-gray-700 font-bold rounded-lg border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                      className="px-6 py-3 bg-gray-300 text-gray-700 font-bold rounded-lg border-2 border-black transition-all relative"
                       style={{ boxShadow: "4px 4px 0px 0px #000" }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.boxShadow =
@@ -146,7 +146,7 @@ const Profile = () => {
                 ) : (
                   <button
                     onClick={handleEditProfile}
-                    className="px-6 py-3 bg-[#ffdb58] text-black font-bold rounded-lg border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                    className="px-6 py-3 bg-[#ffdb58] text-black font-bold rounded-lg border-2 border-black transition-all relative"
                     style={{ boxShadow: "4px 4px 0px 0px #000" }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.boxShadow = "2px 2px 0px 0px #000";
@@ -168,7 +168,7 @@ const Profile = () => {
             <div className="flex flex-wrap gap-4">
               <Link
                 to="/dashboard/add-lesson"
-                className="px-6 py-3 bg-[#ffdb58] text-black font-bold rounded-lg border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                className="px-6 py-3 bg-[#ffdb58] text-black font-bold rounded-lg border-2 border-black transition-all relative"
                 style={{ boxShadow: "4px 4px 0px 0px #000" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.boxShadow = "2px 2px 0px 0px #000";
@@ -181,7 +181,7 @@ const Profile = () => {
               </Link>
               <Link
                 to="/dashboard/my-lesson"
-                className="px-6 py-3 bg-white text-black font-bold rounded-lg border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                className="px-6 py-3 bg-white text-black font-bold rounded-lg border-2 border-black transition-all relative"
                 style={{ boxShadow: "4px 4px 0px 0px #000" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.boxShadow = "2px 2px 0px 0px #000";
@@ -194,7 +194,7 @@ const Profile = () => {
               </Link>
               <Link
                 to="/dashboard/my-favorite"
-                className="px-6 py-3 bg-white text-black font-bold rounded-lg border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                className="px-6 py-3 bg-white text-black font-bold rounded-lg border-2 border-black transition-all relative"
                 style={{ boxShadow: "4px 4px 0px 0px #000" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.boxShadow = "2px 2px 0px 0px #000";
@@ -208,7 +208,7 @@ const Profile = () => {
               {!isPremiumUser && (
                 <Link
                   to="/pricing"
-                  className="px-6 py-3 bg-orange-400 text-black font-bold rounded-lg border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                  className="px-6 py-3 bg-orange-400 text-black font-bold rounded-lg border-2 border-black transition-all relative"
                   style={{ boxShadow: "4px 4px 0px 0px #000" }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.boxShadow = "2px 2px 0px 0px #000";

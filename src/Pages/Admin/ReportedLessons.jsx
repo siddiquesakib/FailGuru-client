@@ -80,7 +80,7 @@ const ReportedLessons = () => {
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div
-            className="bg-red-50 border-4 border-black rounded-lg p-4"
+            className="bg-red-50 border-2 border-black rounded-lg p-4"
             style={{ boxShadow: "4px 4px 0px 0px #000" }}
           >
             <p className="text-3xl font-black text-red-600">{reports.length}</p>
@@ -91,7 +91,7 @@ const ReportedLessons = () => {
         {/* Reports Table */}
         {reports.length === 0 ? (
           <div
-            className="bg-white rounded-lg border-4 border-black p-12 text-center"
+            className="bg-white rounded-lg border-2 border-black p-12 text-center"
             style={{ boxShadow: "8px 8px 0px 0px #000" }}
           >
             <p className="text-2xl font-bold text-gray-400 mb-2">No Reports!</p>
@@ -99,7 +99,7 @@ const ReportedLessons = () => {
           </div>
         ) : (
           <div
-            className="bg-white rounded-lg border-4 border-black overflow-hidden"
+            className="bg-white rounded-lg border-2 border-black overflow-hidden"
             style={{ boxShadow: "8px 8px 0px 0px #000" }}
           >
             <div className="overflow-x-auto">

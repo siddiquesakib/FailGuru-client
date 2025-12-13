@@ -10,121 +10,129 @@ import { Autoplay } from "swiper/modules";
 const Reviews = () => {
   const reviews = [
     {
-      name: "Sarah Johnson",
+      name: "Fatema Rahman",
       stars: 5,
-      text: "Life-changing lessons! Completely transformed my mindset.",
+      text: "This platform completely changed how I approach challenges in my daily life. The lessons are truly inspiring!",
       photo: "https://i.pravatar.cc/150?img=1",
     },
     {
-      name: "Mike Chen",
-      stars: 4,
-      text: "Practical advice that actually works in real life.",
+      name: "Rafsan Ahmed",
+      stars: 5,
+      text: "Incredible insights from real people. I've learned more here than from any book or course.",
       photo: "https://i.pravatar.cc/150?img=2",
     },
     {
-      name: "Emma Davis",
-      stars: 5,
-      text: "The best place to learn from others' experiences!",
-      photo: "https://i.pravatar.cc/150?img=3",
-    },
-    {
-      name: "Raj Patel",
-      stars: 5,
-      text: "Premium content is worth every penny. Highly recommend!",
-      photo: "https://i.pravatar.cc/150?img=4",
-    },
-    {
-      name: "Sarah Johnson",
-      stars: 5,
-      text: "Life-changing lessons! Completely transformed my mindset.",
-      photo: "https://i.pravatar.cc/150?img=1",
-    },
-    {
-      name: "Mike Chen",
+      name: "Nusrat Jahan",
       stars: 4,
-      text: "Practical advice that actually works in real life.",
-      photo: "https://i.pravatar.cc/150?img=2",
-    },
-    {
-      name: "Emma Davis",
-      stars: 5,
-      text: "The best place to learn from others' experiences!",
+      text: "The premium content is absolutely worth it. Helped me grow both personally and professionally.",
       photo: "https://i.pravatar.cc/150?img=3",
     },
     {
-      name: "Raj Patel",
+      name: "Tanvir Hossain",
       stars: 5,
-      text: "Premium content is worth every penny. Highly recommend!",
+      text: "Amazing community and powerful life lessons. I visit this platform every single day!",
       photo: "https://i.pravatar.cc/150?img=4",
+    },
+    {
+      name: "Sabrina Khan",
+      stars: 5,
+      text: "The most practical life advice I've ever received. These lessons actually work in real situations.",
+      photo: "https://i.pravatar.cc/150?img=5",
+    },
+    {
+      name: "Anik Islam",
+      stars: 5,
+      text: "Game changer for my career and mindset. Highly recommend to anyone looking to improve themselves.",
+      photo: "https://i.pravatar.cc/150?img=6",
+    },
+    {
+      name: "Maliha Tasnim",
+      stars: 4,
+      text: "Beautiful collection of wisdom from people around the world. Love the emotional tone filters!",
+      photo: "https://i.pravatar.cc/150?img=7",
+    },
+    {
+      name: "Shafiq Rahman",
+      stars: 5,
+      text: "Best investment I've made in myself this year. The premium lessons are absolutely brilliant!",
+      photo: "https://i.pravatar.cc/150?img=8",
     },
   ];
 
   return (
-    <div className="py-20 bg-[url(/bgimg.png)]">
-      <div className=" mx-auto ">
-        <div className="flex mx-auto">
-          <Button className="mb-6">Review</Button>
+    <div className="py-12 sm:py-16  md:py-20 bg-[url(/bgimg.png)]">
+      <div className="mx-auto px-4 sm:px-6">
+        <div className="flex justify-center">
+          <Button className="mb-4 sm:mb-6">Review</Button>
         </div>
-        <div className="text-center mb-10">
+        <div className="text-center mb-8 sm:mb-10">
           <Heading>What People Are Saying</Heading>
           <Paragraph>Join 10K+ happy learners</Paragraph>
         </div>
 
-        {/* Reviews Grid - 2 cards per row */}
+        {/* Reviews Slider */}
         <Swiper
-          slidesPerView={4}
-          grid={{ rows: 2, fill: "row" }}
-          centeredSlides={true}
-          spaceBetween={30}
+          slidesPerView={1}
+          spaceBetween={20}
           speed={3000}
           grabCursor={true}
-          freeMode={{
-            enabled: true,
-            momentum: false,
-          }}
           loop={true}
           autoplay={{
             delay: 0,
             disableOnInteraction: false,
           }}
+          breakpoints={{
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 25,
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 30,
+            },
+          }}
           modules={[Autoplay]}
+          className="px-4"
         >
           {reviews.map((review, index) => (
-            <SwiperSlide
-              key={index}
-              className="bg-[#fdfd96] border-2 border-black p-8 "
-              style={{ boxShadow: "6px 6px 0px 0px #000" }}
-            >
-              <div className="flex items-start gap-4 mb-6">
-                <img
-                  src={review.photo}
-                  alt={review.name}
-                  className="w-14 h-14 rounded-full border-2 border-gray-200 flex-shrink-0"
-                />
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-bold text-xl text-gray-900 mb-2 truncate">
-                    {review.name}
-                  </h4>
-                  {/* Stars */}
-                  <div className="flex gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <span
-                        key={i}
-                        className={`text-xl ${
-                          i < review.stars ? "text-yellow-400" : "text-gray-300"
-                        }`}
-                      >
-                        ⭐
-                      </span>
-                    ))}
+            <SwiperSlide key={index}>
+              <div
+                className="bg-[#fdfd96] border-2 border-black p-6 sm:p-8 h-full"
+                style={{ boxShadow: "6px 6px 0px 0px #000" }}
+              >
+                <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
+                  <img
+                    src={review.photo}
+                    alt={review.name}
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-black flex-shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-medium text-xs sm:text-[15px] text-gray-900 mb-1 sm:mb-2 truncate">
+                      {review.name}
+                    </h4>
+                    {/* Stars */}
+                    <div className="flex gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <span
+                          key={i}
+                          className={`text-[14px] sm:text-[18px] ${
+                            i < review.stars
+                              ? "text-yellow-400"
+                              : "text-gray-300"
+                          }`}
+                        >
+                          ⭐
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Review Text - 2 lines */}
-              <Paragraph className="text-black leading-relaxed text-lg line-clamp-2">
-                "{review.text}"
-              </Paragraph>
+                {/* Review Text */}
+                <p className="text-gray-800 leading-relaxed text-[12px] sm:text-[14px] font-medium line-clamp-3">
+                  "{review.text}"
+                </p>
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>

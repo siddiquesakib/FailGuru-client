@@ -75,19 +75,22 @@ const Pricing = () => {
   };
 
   return (
-    <div className=" py-1 mb-25 px-4 min-h-[calc(100vh-250px)] bg-[url(/bgimg.png)]">
-      <Container className="my-20 ">
+    <div className="py-1 mb-10 px-4 min-h-[calc(100vh-250px)] bg-[url(/bgimg.png)]">
+      <Container className="my-20">
+        <div className="flex mx-auto">
+          <Button className="mb-6">Plan</Button>
+        </div>
         {isPremiumUser ? (
-          <div className="text-center mb-12">
-            <Heading className="text-3xl md:text-5xl md:w-5xl mx-auto font-black mb-4 font2">
+          <div className="text-center mb-1 max-w-3xl mx-auto">
+            <Heading className="text-3xl md:text-5xl font-black mb-4 font2">
               You're officially a lifetime Premium member.
             </Heading>
-            <Paragraph className="text-xl text-gray-600">
+            <Paragraph className="text-xl text-gray-600 mb-8">
               You can cancel anytime
             </Paragraph>
             <button
               onClick={handleCancel}
-              className="mt-10 px-6 py-2.5 text-xl border-2 border-black font-semibold cursor-pointer text-black rounded transition-all relative"
+              className="px-6 py-2.5 text-xl border-2 border-black font-semibold cursor-pointer text-black  transition-all relative"
               style={{
                 backgroundColor: "#ffdb58",
                 boxShadow: "4px 4px 0px 0px #000",
@@ -107,33 +110,28 @@ const Pricing = () => {
         ) : (
           <>
             <div className="text-center mb-12">
-              <div className="flex mx-auto">
-                <Button className="mb-6">Plan</Button>
-              </div>
               <Heading>Choose Your Plan</Heading>
               <Paragraph>Select the perfect plan for your needs</Paragraph>
             </div>
-            <div className="flex flex-col md:flex-row  justify-center gap-8 ">
+            <div className="flex flex-col md:flex-row justify-center items-stretch gap-8">
               {pricingPlans.map((plan) => (
                 <div
                   key={plan.id}
-                  className={`${plan.bgColor} md:w-[450px] flex flex-col justify-between p-8  border-2 border-black transition-all duration-300 hover:shadow-[12px_12px_0px_0px_#000]`}
+                  className={`${plan.bgColor} md:w-[450px] flex flex-col p-8 border-2 border-black transition-all duration-300 hover:shadow-[12px_12px_0px_0px_#000]`}
                   style={{ boxShadow: "8px 8px 0px 0px #000" }}
                 >
-                  <div>
-                    <h2 className="text-4xl font-black mb-3 ">{plan.name}</h2>
+                  <div className="flex-grow">
+                    <h2 className="text-4xl font-black mb-3">{plan.name}</h2>
                     <Paragraph className="text-base mb-8 !text-black leading-relaxed">
                       {plan.description}
                     </Paragraph>
 
                     <div className="mb-8 flex items-center">
                       <h1 className="text-[40px] font-black">{plan.price} </h1>
-                      {plan.name === "PREMIUM" ? (
+                      {plan.name === "PREMIUM" && (
                         <span className="text-xl font-semibold">
                           ৳ Lifetime
                         </span>
-                      ) : (
-                        <></>
                       )}
                     </div>
 
@@ -155,49 +153,44 @@ const Pricing = () => {
                     </div>
                   </div>
 
-                  <div>
+                  <div className="mt-auto">
                     {plan.name === "PREMIUM" ? (
                       <button
                         onClick={handlePayment}
-                        className="block w-full cursor-pointer bg-[#ffdb58] text-black font-semibold py-4 text-base text-center border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                        className="block w-full cursor-pointer bg-[#ffdb58] text-black font-semibold py-4 text-base text-center border-2 border-black transition-all duration-200"
                         style={{
-                          backgroundColor: "#ffdb58",
-                          boxShadow: "2px 2px 0px 0px #000",
+                          boxShadow: "4px 4px 0px 0px #000",
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.boxShadow =
                             "2px 2px 0px 0px #000";
                           e.currentTarget.style.transform =
-                            "translate(-2px, -2px)";
+                            "translate(2px, 2px)";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.boxShadow =
                             "4px 4px 0px 0px #000";
-                          e.currentTarget.style.transform =
-                            "translate(2px, 2px)";
+                          e.currentTarget.style.transform = "translate(0, 0)";
                         }}
                       >
                         Get Premium
                       </button>
                     ) : (
                       <button
-                        to="/"
-                        className="block w-full cursor-pointer bg-[#ffdb58] text-black font-semibold py-4 text-base text-center border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                        className="block w-full cursor-pointer bg-[#ffdb58] text-black font-semibold py-4 text-base text-center border-2 border-black transition-all duration-200"
                         style={{
-                          backgroundColor: "#ffdb58",
-                          boxShadow: "2px 2px 0px 0px #000",
+                          boxShadow: "4px 4px 0px 0px #000",
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.boxShadow =
                             "2px 2px 0px 0px #000";
                           e.currentTarget.style.transform =
-                            "translate(-2px, -2px)";
+                            "translate(2px, 2px)";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.boxShadow =
                             "4px 4px 0px 0px #000";
-                          e.currentTarget.style.transform =
-                            "translate(2px, 2px)";
+                          e.currentTarget.style.transform = "translate(0, 0)";
                         }}
                       >
                         Get Free

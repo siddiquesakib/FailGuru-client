@@ -87,7 +87,7 @@ const AdminDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Total Users */}
           <div
-            className="bg-white rounded-lg border-4 border-black p-6"
+            className="bg-white rounded-lg border-2 border-black p-6"
             style={{ boxShadow: "6px 6px 0px 0px #000" }}
           >
             <div className="flex items-center justify-between mb-4">
@@ -106,7 +106,7 @@ const AdminDashboard = () => {
 
           {/* Total Public Lessons */}
           <div
-            className="bg-white rounded-lg border-4 border-black p-6"
+            className="bg-white rounded-lg border-2 border-black p-6"
             style={{ boxShadow: "6px 6px 0px 0px #000" }}
           >
             <div className="flex items-center justify-between mb-4">
@@ -125,7 +125,7 @@ const AdminDashboard = () => {
 
           {/* Total Reported Lessons */}
           <div
-            className="bg-white rounded-lg border-4 border-black p-6"
+            className="bg-white rounded-lg border-2 border-black p-6"
             style={{ boxShadow: "6px 6px 0px 0px #000" }}
           >
             <div className="flex items-center justify-between mb-4">
@@ -146,7 +146,7 @@ const AdminDashboard = () => {
 
           {/* Today's New Lessons */}
           <div
-            className="bg-linear-to-br from-purple-500 to-pink-500 rounded-lg border-4 border-black p-6 text-white"
+            className="bg-linear-to-br from-purple-500 to-pink-500 rounded-lg border-2 border-black p-6 text-white"
             style={{ boxShadow: "6px 6px 0px 0px #000" }}
           >
             <div className="flex items-center justify-between mb-4">
@@ -165,7 +165,7 @@ const AdminDashboard = () => {
 
         {/* Most Active Contributors */}
         <div
-          className="bg-white rounded-lg border-4 border-black p-6 mb-8"
+          className="bg-white rounded-lg border-2 border-black p-6 mb-8"
           style={{ boxShadow: "8px 8px 0px 0px #000" }}
         >
           <div className="flex items-center justify-between mb-6">
@@ -195,7 +195,7 @@ const AdminDashboard = () => {
 
         {/* Quick Actions */}
         <div
-          className="bg-white rounded-lg border-4 border-black p-6"
+          className="bg-white rounded-lg border-2 border-black p-6"
           style={{ boxShadow: "8px 8px 0px 0px #000" }}
         >
           <h2 className="text-2xl font-black mb-6">⚡ Quick Actions</h2>

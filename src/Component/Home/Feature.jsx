@@ -35,7 +35,7 @@ const Feature = () => {
         {/* Section Header */}
         <div className="text-center mb-12">
           <div className="flex mx-auto">
-            <Button className="mb-10">Featured</Button>
+            <Button className="mb-6">Featured</Button>
           </div>
           <Heading>Featured Lessons</Heading>
           <Paragraph>
@@ -156,18 +156,20 @@ const Feature = () => {
                   ) : (
                     <Link
                       to={`/publiclessons/${lesson._id}`}
-                      className="block w-full bg-[#ffdb58] text-black font-semibold py-3 text-center border-2   border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                      className="block w-full bg-[#ffdb58] text-black font-semibold py-3 text-center border-2   border-black transition-all relative"
                       style={{
-                        border: "3px solid #000",
+                        backgroundColor: "#ffdb58",
                         boxShadow: "4px 4px 0px 0px #000",
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.boxShadow =
                           "2px 2px 0px 0px #000";
+                        e.currentTarget.style.transform = "translate(2px, 2px)";
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.boxShadow =
                           "4px 4px 0px 0px #000";
+                        e.currentTarget.style.transform = "translate(0, 0)";
                       }}
                     >
                       See Details

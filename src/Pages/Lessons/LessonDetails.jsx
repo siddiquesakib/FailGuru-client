@@ -504,7 +504,7 @@ const LessonDetails = () => {
                 />
                 <button
                   onClick={handleComment}
-                  className="block px-3 bg-[#ffdb58] text-black text-[12px] font-semibold py-2 cursor-pointer text-center border-2 border-black transition-all duration-200 hover:translate-x-1 hover:translate-y-1"
+                  className="block px-3 bg-[#ffdb58] text-black text-[12px] font-semibold py-2 cursor-pointer text-center border-2 border-black transition-all relative"
                   style={{
                     backgroundColor: "#ffdb58",
                     boxShadow: "2px 2px 0px 0px #000",
