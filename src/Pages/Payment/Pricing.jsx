@@ -113,7 +113,7 @@ const Pricing = () => {
               <Heading>Choose Your Plan</Heading>
               <Paragraph>Select the perfect plan for your needs</Paragraph>
             </div>
-            <div className="flex flex-col md:flex-row justify-center items-stretch gap-8">
+            <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 mb-10">
               {pricingPlans.map((plan) => (
                 <div
                   key={plan.id}
@@ -177,6 +177,7 @@ const Pricing = () => {
                       </button>
                     ) : (
                       <button
+                        onClick={"/"}
                         className="block w-full cursor-pointer bg-[#ffdb58] text-black font-semibold py-4 text-base text-center border-2 border-black transition-all duration-200"
                         style={{
                           boxShadow: "4px 4px 0px 0px #000",

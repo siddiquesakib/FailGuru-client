@@ -34,11 +34,7 @@ const Register = () => {
       const result = await createUser(email, password);
       console.log(result);
 
-      // await saveOrUpdateUser({ name, email, image: imgURL });
-
       await updateUser(name, imgURL);
-
-      //Save user data to MongoDB
       const usersdata = {
         name,
         email,
@@ -46,7 +42,6 @@ const Register = () => {
       };
       await mutateAsync(usersdata);
 
-      // 5. Reset form and navigate
       reset();
       navigate(f, { replace: true });
       toast.success("Register Successful");

@@ -72,7 +72,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
             </p>
             <p className="text-xs text-gray-500">
               {isAdmin ? (
-                <Crown color="#f6b550" size={15} />
+                <Crown color="#000" size={15} />
               ) : (
                 <User color="#000" size={15} />
               )}

@@ -62,7 +62,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-         <Logo/>
+          <Logo />
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center">
@@ -76,7 +76,15 @@ const Navbar = () => {
                 {/* Avatar */}
                 <div className="flex justify-center items-center gap-1.5">
                   {isPremiumUser && (
-                    <h1 className="font-semibold text-[#f0b127]">Premium ⭐</h1>
+                    <h1
+                      className="font-semibold text-[#f0b127]"
+                      style={{
+                        color: "#FBBF24",
+                        textShadow: "2px 2px 0px #222",
+                      }}
+                    >
+                      Premium ⭐
+                    </h1>
                   )}
                   <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}

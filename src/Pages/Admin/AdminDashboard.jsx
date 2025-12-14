@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router";
 import Heading from "../../Component/Shared/Heading";
 import Paragraph from "../../Component/Shared/Paragraph";
-import { CheckCheck, Flag, FolderKanban, User, User2Icon } from "lucide-react";
+import { CheckCheck, Flag, FolderKanban, User } from "lucide-react";
 import { CiTrophy } from "react-icons/ci";
 import {
   BarChart,
@@ -18,17 +18,6 @@ import {
 } from "recharts";
 
 const AdminDashboard = () => {
-  // Fetch admin statistics
-  const { data: stats, isLoading } = useQuery({
-    queryKey: ["admin-stats"],
-    queryFn: async () => {
-      const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/admin/stats`
-      );
-      return result.data;
-    },
-  });
-
   //fetch all lessons
   const { data: lessons = [] } = useQuery({
     queryKey: ["lessons"],

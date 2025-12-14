@@ -45,7 +45,7 @@ const Newsletter = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="example@mail.com"
-                className="w-full pl-4 sm:pl-6 pr-14 sm:pr-16 py-3 sm:py-4 bg-white rounded-full border-3 border-black text-black text-sm sm:text-base font-semibold focus:outline-none"
+                className="w-full pl-4 sm:pl-6 pr-14 sm:pr-16 py-3 sm:py-4 bg-white rounded-full border-3 border-black text-black text-sm sm:text-base font-semibold focus:outline-none "
                 required
               />
               <button
