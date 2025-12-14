@@ -14,15 +14,18 @@ import { BsTwitterX } from "react-icons/bs";
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useRole from "../../hooks/useRole";
 import { IoMdArrowBack } from "react-icons/io";
 import { AiFillLike } from "react-icons/ai";
 import { AiOutlineLike } from "react-icons/ai";
 import { BsSave2Fill } from "react-icons/bs";
 import { BsSave2 } from "react-icons/bs";
 import { VscReport } from "react-icons/vsc";
+import { FiEdit } from "react-icons/fi";
 
 const LessonDetails = () => {
   const { user } = useAuth();
+  const [role] = useRole();
   const { id } = useParams();
   const [comment, setComment] = useState("");
   const [showReportModal, setShowReportModal] = useState(false);
@@ -467,6 +470,18 @@ const LessonDetails = () => {
                     size={22}
                   />
                 </button>
+
+                {/* Edit Button - Show if user is creator or admin */}
+                {user &&
+                  (user.email === lesson.creatorEmail || role === "admin") && (
+                    <Link
+                      to={`/dashboard/edit-lesson/${id}`}
+                      className="pr-4 flex font-bold text-blue-600 hover:text-blue-700 items-center gap-2 cursor-pointer"
+                    >
+                      <FiEdit size={22} />
+                      <span className="hidden sm:inline">Edit</span>
+                    </Link>
+                  )}
 
                 <div className="flex gap-2 items-center ml-auto">
                   <span className="text-sm font-semibold text-gray-600">

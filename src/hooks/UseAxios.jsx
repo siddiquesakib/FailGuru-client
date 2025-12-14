@@ -13,13 +13,16 @@ const useAxiosSecure = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && user?.accessToken) {
+    if (!loading && user) {
       // Add request interceptor
       const requestInterceptor = axiosInstance.interceptors.request.use(
-        (config) => {
-          config.headers.Authorization = `Bearer ${user.accessToken}`;
+        async (config) => {
+          // Get fresh Firebase ID token
+          const token = await user.getIdToken();
+          config.headers.Authorization = `Bearer ${token}`;
           return config;
-        }
+        },
+        (error) => Promise.reject(error)
       );
 
       // Add response interceptor

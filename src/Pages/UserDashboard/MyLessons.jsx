@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import Swal from "sweetalert2";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import useAxiosSecure from "../../hooks/UseAxios";
 import { useForm } from "react-hook-form";
 import { imageUpload } from "../../Utils";
 import { toast } from "react-toastify";
@@ -12,6 +13,7 @@ import Paragraph from "../../Component/Shared/Paragraph";
 
 const MyLessons = () => {
   const { user, isPremiumUser } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState(null);
 
@@ -31,6 +33,30 @@ const MyLessons = () => {
     "Mistakes Learned",
   ];
   const emotionalTones = ["Motivational", "Sad", "Realization", "Gratitude"];
+
+  // Helper: decode HTML entities, strip tags and truncate
+  const decodeAndTrim = (html = "", max = 80) => {
+    try {
+      // Strip HTML tags
+      const stripped = html.replace(/<[^>]*>/g, "");
+
+      // Decode HTML entities using DOMParser
+      const parser = new DOMParser();
+      const decoded = parser.parseFromString(stripped, "text/html")
+        .documentElement.textContent;
+
+      if (!decoded) return "";
+      if (decoded.length <= max) return decoded;
+      return decoded.slice(0, max).trim() + "...";
+    } catch (err) {
+      // Fallback: basic truncation
+      if (!html) return "";
+      const fallback = html.replace(/<[^>]*>/g, "");
+      return fallback.length > max
+        ? fallback.slice(0, max).trim() + "..."
+        : fallback;
+    }
+  };
 
   //fetch lessons
   const {
@@ -58,36 +84,26 @@ const MyLessons = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        fetch(`${import.meta.env.VITE_API_URL}/my-lessons/${id}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((res) => {
-            if (!res.ok) {
-              throw new Error("Failed to delete");
-            }
-            return res.json();
-          })
-          .then(() => {
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your lesson has been deleted.",
-              icon: "success",
-            });
-            refetch();
-          })
-          .catch((err) => {
-            console.error("Delete error:", err);
-            Swal.fire({
-              title: "Error!",
-              text: "Failed to delete lesson. Please try again.",
-              icon: "error",
-            });
+        try {
+          await axiosSecure.delete(`/my-lessons/${id}`);
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your lesson has been deleted.",
+            icon: "success",
           });
+          refetch();
+        } catch (err) {
+          console.error("Delete error:", err);
+          Swal.fire({
+            title: "Error!",
+            text:
+              err.response?.data?.message ||
+              "Failed to delete lesson. Please try again.",
+            icon: "error",
+          });
+        }
       }
     });
   };
@@ -95,15 +111,14 @@ const MyLessons = () => {
   // Update mutation
   const { mutateAsync: updateLesson } = useMutation({
     mutationFn: async ({ id, payload }) =>
-      await axios.patch(
-        `${import.meta.env.VITE_API_URL}/my-lessons/${id}`,
-        payload
-      ),
+      await axiosSecure.patch(`/my-lessons/${id}`, payload),
     onSuccess: () => {
       toast.success("Lesson updated successfully!");
       setShowUpdateModal(false);
-      // Refetch lessons after update
       refetch();
+    },
+    onError: (err) => {
+      toast.error(err.response?.data?.message || "Failed to update lesson");
     },
   });
 
@@ -163,8 +178,6 @@ const MyLessons = () => {
     }
   };
 
-
-
   return (
     <div className="min-h-screen bg-[url(/bgimg.png)] py-4 sm:py-6 md:py-8 sm:px-4">
       <div className="max-w-7xl mx-auto">
@@ -212,11 +225,17 @@ const MyLessons = () => {
                   >
                     <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4">
                       <p className="font-bold text-xs sm:text-sm md:text-base text-gray-900 line-clamp-2">
-                        {lesson.title}
+                        {decodeAndTrim(lesson.title, 80)}
                       </p>
                       <p className="text-xs text-gray-500 mt-0.5">
                         {lesson.emotionalTone}
                       </p>
+                      {/* Short preview to keep the table compact */}
+                      {lesson.description && (
+                        <p className="text-xs text-gray-500 mt-1 hidden sm:block">
+                          {decodeAndTrim(lesson.description, 100)}
+                        </p>
+                      )}
                       {/* Show category on mobile */}
                       <span className="sm:hidden inline-block mt-1 px-2 py-0.5 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">
                         {lesson.category}
@@ -247,13 +266,13 @@ const MyLessons = () => {
                         >
                           👁️
                         </Link>
-                        <button
-                          onClick={() => openUpdateModal(lesson)}
+                        <Link
+                          to={`/dashboard/edit-lesson/${lesson._id}`}
                           className="px-2 sm:px-3 py-1 sm:py-1.5 bg-purple-500 text-white text-xs font-bold rounded hover:bg-purple-600"
                           title="Update"
                         >
                           ✏️
-                        </button>
+                        </Link>
                         <button
                           onClick={() => handleDelete(lesson._id)}
                           className="px-2 sm:px-3 py-1 sm:py-1.5 bg-red-500 text-white text-xs font-bold rounded hover:bg-red-600"
@@ -281,208 +300,6 @@ const MyLessons = () => {
           )}
         </div>
       </div>
-
-      {/* Update Modal */}
-      {showUpdateModal && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
-          <div
-            className="bg-white rounded-lg border-2 border-black p-4 sm:p-6 w-full max-w-2xl max-h-[95vh] overflow-y-auto"
-            style={{ boxShadow: "8px 8px 0px 0px #000" }}
-          >
-            <h2 className="text-2xl sm:text-3xl font-black mb-4 sm:mb-6">
-              Update Lesson
-            </h2>
-
-            <form onSubmit={handleSubmit(onUpdate)}>
-              {/* Title */}
-              <div className="mb-3 sm:mb-4">
-                <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
-                  Lesson Title *
-                </label>
-                <input
-                  type="text"
-                  {...register("title", {
-                    required: "Title is required",
-                    minLength: {
-                      value: 5,
-                      message: "Title must be at least 5 characters",
-                    },
-                    maxLength: {
-                      value: 100,
-                      message: "Title must be less than 100 characters",
-                    },
-                  })}
-                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                {errors.title && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.title.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Description */}
-              <div className="mb-3 sm:mb-4">
-                <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
-                  Description *
-                </label>
-                <textarea
-                  {...register("description", {
-                    required: "Description is required",
-                    minLength: {
-                      value: 20,
-                      message: "Description must be at least 20 characters",
-                    },
-                    maxLength: {
-                      value: 1000,
-                      message: "Description must be less than 1000 characters",
-                    },
-                  })}
-                  rows="5"
-                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                {errors.description && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.description.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Category & Emotional Tone */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4">
-                <div>
-                  <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
-                    Category *
-                  </label>
-                  <select
-                    {...register("category", {
-                      required: "Category is required",
-                    })}
-                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  >
-                    {categories.map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.category && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.category.message}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
-                    Emotional Tone *
-                  </label>
-                  <select
-                    {...register("emotionalTone", {
-                      required: "Emotional tone is required",
-                    })}
-                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  >
-                    {emotionalTones.map((tone) => (
-                      <option key={tone} value={tone}>
-                        {tone}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.emotionalTone && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.emotionalTone.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Image */}
-              <div className="mb-3 sm:mb-4">
-                <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
-                  Upload New Image (Optional)
-                </label>
-                <input
-                  type="file"
-                  {...register("image")}
-                  accept="image/*"
-                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 file:mr-3 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-purple-50 file:text-purple-700"
-                />
-                <input type="hidden" {...register("currentImage")} />
-                <p className="text-xs text-gray-500 mt-1">
-                  Leave empty to keep current image
-                </p>
-              </div>
-
-              {/* Privacy & Access Level */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
-                <div>
-                  <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
-                    Privacy *
-                  </label>
-                  <select
-                    {...register("privacy", {
-                      required: "Privacy is required",
-                    })}
-                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  >
-                    <option value="Public">Public</option>
-                    <option value="Private">Private</option>
-                  </select>
-                  {errors.privacy && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.privacy.message}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <label className="block text-xs sm:text-sm font-bold mb-1.5 sm:mb-2">
-                    Access Level *
-                  </label>
-                  <select
-                    {...register("accessLevel", {
-                      required: "Access level is required",
-                    })}
-                    disabled={!isPremiumUser}
-                    className={`w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                      !isPremiumUser ? "bg-gray-100 cursor-not-allowed" : ""
-                    }`}
-                  >
-                    <option value="Free">Free</option>
-                    <option value="Premium" disabled={!isPremiumUser}>
-                      Premium
-                    </option>
-                  </select>
-                  {errors.accessLevel && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.accessLevel.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Buttons */}
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                <button
-                  type="submit"
-                  className="w-full py-2.5 sm:py-3 bg-green-500 text-white text-sm sm:text-base font-bold rounded-lg hover:bg-green-600 transition-colors"
-                >
-                  Update Lesson
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowUpdateModal(false);
-                    reset();
-                  }}
-                  className="w-full py-2.5 sm:py-3 bg-gray-300 text-gray-700 text-sm sm:text-base font-bold rounded-lg hover:bg-gray-400 transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

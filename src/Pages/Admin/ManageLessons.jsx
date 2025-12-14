@@ -150,6 +150,13 @@ const ManageLessons = () => {
                       >
                         🗑️ <span className="hidden sm:inline">Delete</span>
                       </button>
+                      <Link
+                        to={`/dashboard/edit-lesson/${lesson._id}`}
+                        className="px-2 sm:px-3 py-1 sm:py-1.5 bg-purple-500 text-white text-xs font-bold rounded hover:bg-purple-600"
+                        title="Update"
+                      >
+                        ✏️ <span className="hidden sm:inline">Edit</span>
+                      </Link>
                     </div>
                   </td>
                 </tr>

@@ -10,6 +10,7 @@ import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import Profile from "../Pages/UserDashboard/Profile";
 import AddLesson from "../Pages/UserDashboard/AddLesson";
+import EditLesson from "../Pages/UserDashboard/EditLesson";
 import MyLessons from "../Pages/UserDashboard/MyLessons";
 import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 import LessonDetails from "../Pages/Lessons/LessonDetails";
@@ -51,11 +52,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/publiclessons/:id",
-        element: (
-         
-            <LessonDetails />
-      
-        ),
+        element: <LessonDetails />,
+      },
+      {
+        path: "/lessons/:id",
+        element: <LessonDetails />,
       },
     ],
   },
@@ -98,6 +99,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddLesson />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "edit-lesson/:id",
+        element: (
+          <PrivateRoute>
+            <EditLesson />
           </PrivateRoute>
         ),
       },
