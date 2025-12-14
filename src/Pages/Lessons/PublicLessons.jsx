@@ -103,7 +103,7 @@ const PublicLessons = () => {
                 placeholder="Search by title or keyword..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
@@ -112,7 +112,7 @@ const PublicLessons = () => {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
               >
                 <option value="">All Categories</option>
                 {categories.map((cat) => (
@@ -128,7 +128,7 @@ const PublicLessons = () => {
               <select
                 value={selectedTone}
                 onChange={(e) => setSelectedTone(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
               >
                 <option value="">All Tones</option>
                 {emotionalTones.map((tone) => (
@@ -150,7 +150,7 @@ const PublicLessons = () => {
                 onClick={() => setSortBy("newest")}
                 className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
                   sortBy === "newest"
-                    ? "bg-purple-600 text-white"
+                    ? "bg-gray-800 text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
@@ -160,7 +160,7 @@ const PublicLessons = () => {
                 onClick={() => setSortBy("mostSaved")}
                 className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
                   sortBy === "mostSaved"
-                    ? "bg-purple-600 text-white"
+                    ? "bg-gray-800 text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >

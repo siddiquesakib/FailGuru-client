@@ -22,6 +22,7 @@ import { BsSave2Fill } from "react-icons/bs";
 import { BsSave2 } from "react-icons/bs";
 import { VscReport } from "react-icons/vsc";
 import { FiEdit } from "react-icons/fi";
+import Loading from "../../Component/Shared/Loading/Loading";
 
 const LessonDetails = () => {
   const { user } = useAuth();
@@ -322,16 +323,7 @@ const LessonDetails = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-xl font-semibold text-gray-700">
-            Loading lesson...
-          </p>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (!lesson) {
@@ -469,9 +461,10 @@ const LessonDetails = () => {
                     className="text-gray-700 hover:text-gray-900"
                     size={22}
                   />
+                  <span className="hidden text-red-500 sm:inline">Report</span>
                 </button>
 
-                {/* Edit Button - Show if user is creator or admin */}
+                {/* Edit Button */}
                 {user &&
                   (user.email === lesson.creatorEmail || role === "admin") && (
                     <Link
@@ -514,7 +507,7 @@ const LessonDetails = () => {
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                   placeholder="What are your thoughts?"
-                  className="w-full p-4 text-[13px]  border border-gray-100 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full p-4 text-[13px]  border border-gray-100 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                   rows="3"
                 />
                 <button
@@ -606,7 +599,7 @@ const LessonDetails = () => {
             <select
               value={reportReason}
               onChange={(e) => setReportReason(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full p-3 border border-gray-300 rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-black"
             >
               <option value="">Select a reason</option>
               {reportReasons.map((reason) => (

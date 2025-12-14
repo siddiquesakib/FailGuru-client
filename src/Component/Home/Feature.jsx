@@ -142,7 +142,6 @@ const Feature = () => {
                   </div>
                 </div>
 
-                {/* ✅ Button pushed to absolute bottom */}
                 <div className="mt-auto">
                   {lesson.accessLevel?.toLowerCase() === "premium" &&
                   !isPremiumUser ? (

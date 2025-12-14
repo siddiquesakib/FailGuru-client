@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import useRole from "../../hooks/useRole";
+import useAxiosSecure from "../../hooks/UseAxios";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -14,6 +15,7 @@ import Loading from "../../Component/Shared/Loading/Loading";
 const EditLesson = () => {
   const { user } = useAuth();
   const [role] = useRole();
+  const axiosSecure = useAxiosSecure();
   const { id } = useParams();
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
@@ -79,16 +81,13 @@ const EditLesson = () => {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: async (payload) =>
-      await axios.patch(
-        `${import.meta.env.VITE_API_URL}/lessons/${id}`,
-        payload
-      ),
+      await axiosSecure.patch(`/my-lessons/${id}`, payload),
     onSuccess: () => {
       toast.success("Lesson updated successfully! ✨");
       navigate(`/lessons/${id}`);
     },
-    onError: () => {
-      toast.error("Failed to update lesson");
+    onError: (err) => {
+      toast.error(err.response?.data?.message || "Failed to update lesson");
     },
   });
 
@@ -166,7 +165,7 @@ const EditLesson = () => {
             <input
               type="text"
               placeholder="Enter your lesson title"
-              className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bla"
               {...register("title", {
                 required: "Title is required",
               })}
@@ -186,7 +185,7 @@ const EditLesson = () => {
             <textarea
               placeholder="Share your story, insight, or life lesson in detail..."
               rows="6"
-              className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bla"
               {...register("description", {
                 required: "Description is required",
               })}
@@ -206,7 +205,7 @@ const EditLesson = () => {
                 Category
               </label>
               <select
-                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bla"
                 {...register("category", {
                   required: "Category is required",
                 })}
@@ -231,7 +230,7 @@ const EditLesson = () => {
                 Emotional Tone
               </label>
               <select
-                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bla"
                 {...register("emotionalTone", {
                   required: "Emotional tone is required",
                 })}
@@ -269,7 +268,7 @@ const EditLesson = () => {
             <input
               type="file"
               accept="image/*"
-              className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 file:mr-4 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-sm file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+              className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black file:mr-4 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-sm file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300"
               {...register("image")}
               onChange={(e) => {
                 const file = e.target.files?.[0];
@@ -292,7 +291,7 @@ const EditLesson = () => {
                 Privacy
               </label>
               <select
-                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bla"
                 {...register("privacy", {
                   required: "Privacy is required",
                 })}
@@ -318,7 +317,7 @@ const EditLesson = () => {
                     required: "Access level is required",
                   })}
                   disabled={!isPremium && lesson?.accessLevel === "free"}
-                  className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bla ${
                     !isPremium && lesson?.accessLevel === "free"
                       ? "bg-gray-100 cursor-not-allowed"
                       : ""

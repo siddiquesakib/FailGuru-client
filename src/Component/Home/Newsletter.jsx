@@ -18,7 +18,7 @@ const Newsletter = () => {
 
   return (
     <div
-      className="max-w-6xl mx-4 sm:mx-6 lg:mx-auto pb-8 sm:pb-12 pt-2 my-12 sm:my-20 border-2 border-black bg-[#fdfd96]"
+      className="max-w-6xl mx-4 sm:mx-6 lg:mx-auto py-12 border-2 mb-10 border-black bg-[#fdfd96]"
       style={{
         boxShadow: "8px 8px 0px 0px #000",
       }}

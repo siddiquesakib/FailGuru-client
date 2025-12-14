@@ -6,8 +6,8 @@ import { ReactNextPlayer } from "reactnextplayer";
 
 const Video = () => {
   return (
-    <div className="px-4 py-8 sm:py-12">
-      <div className="text-center mb-8 sm:mb-12">
+    <div className="px-4 py-12">
+      <div className="text-center mb-8">
         <div className="flex mx-auto">
           <Button className="mb-4 sm:mb-6">video</Button>
         </div>

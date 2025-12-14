@@ -41,7 +41,7 @@ const FAQ = () => {
   };
 
   return (
-    <div className="py-20 bg-[url(/bgimg.png)] ">
+    <div className="py-12 bg-[url(/bgimg.png)] px-4">
       <div className="max-w-4xl mx-auto px-4">
         <div className="flex mx-auto">
           <Button className="mb-6">FAQ</Button>

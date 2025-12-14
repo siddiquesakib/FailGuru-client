@@ -52,7 +52,7 @@ const Reviews = () => {
   ];
 
   return (
-    <div className="py-12 sm:py-16  md:py-20 bg-[url(/bgimg.png)]">
+    <div className="py-12 bg-[url(/bgimg.png)]">
       <div className="mx-auto px-4 sm:px-6">
         <div className="flex justify-center">
           <Button className="mb-4 sm:mb-6">Review</Button>

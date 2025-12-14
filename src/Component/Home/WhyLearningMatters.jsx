@@ -22,7 +22,7 @@ const WhyLearningMatters = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[url(/bgimg.png)] py-8 sm:py-12 md:py-16 px-4">
+    <div className="bg-[url(/bgimg.png)] py-12 px-4">
       <Container className="max-w-6xl mx-auto">
         {/* Header */}
 
@@ -52,7 +52,9 @@ const WhyLearningMatters = () => {
               </h3>
 
               {/* Description */}
-              <Paragraph className="!text-black text-sm sm:text-base">{benefit.desc}</Paragraph>
+              <Paragraph className="!text-black text-sm sm:text-base">
+                {benefit.desc}
+              </Paragraph>
             </div>
           ))}
         </div>

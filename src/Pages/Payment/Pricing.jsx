@@ -80,8 +80,8 @@ const Pricing = () => {
   }
 
   return (
-    <div className="py-1  px-4 min-h-[calc(100vh-250px)] bg-[url(/bgimg.png)]">
-      <Container className="my-0">
+    <div className="py-12 px-4 bg-[url(/bgimg.png)]">
+      <Container>
         <div className="flex mx-auto">
           <Button className="mb-6">Plan</Button>
         </div>

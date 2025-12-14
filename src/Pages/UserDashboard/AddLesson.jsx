@@ -126,7 +126,7 @@ const AddLesson = () => {
             <input
               type="text"
               placeholder="Enter your lesson title"
-              className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
               {...register("title", {
                 required: "Title is required",
               })}
@@ -146,7 +146,7 @@ const AddLesson = () => {
             <textarea
               placeholder="Share your story, insight, or life lesson in detail..."
               rows="6"
-              className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
               {...register("description", {
                 required: "Description is required",
               })}
@@ -166,7 +166,7 @@ const AddLesson = () => {
                 Category
               </label>
               <select
-                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                 {...register("category", {
                   required: "Category is required",
                 })}
@@ -191,7 +191,7 @@ const AddLesson = () => {
                 Emotional Tone
               </label>
               <select
-                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                 {...register("emotionalTone", {
                   required: "Emotional tone is required",
                 })}
@@ -219,7 +219,7 @@ const AddLesson = () => {
             <input
               type="file"
               accept="image/*"
-              className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 file:mr-4 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-sm file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+              className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black file:mr-4 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-sm file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300"
               {...register("image")}
             />
             {errors.image && (
@@ -237,7 +237,7 @@ const AddLesson = () => {
                 Privacy
               </label>
               <select
-                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                 {...register("privacy", {
                   required: "Privacy is required",
                 })}
@@ -263,7 +263,7 @@ const AddLesson = () => {
                     required: "Access level is required",
                   })}
                   disabled={!isPremium}
-                  className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black ${
                     !isPremium ? "bg-gray-100 cursor-not-allowed" : ""
                   }`}
                 >
