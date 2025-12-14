@@ -49,7 +49,7 @@ const Register = () => {
       // 5. Reset form and navigate
       reset();
       navigate(f, { replace: true });
-      toast.success("Signup Successful");
+      toast.success("Register Successful");
     } catch (err) {
       console.log(err);
       toast.error(err?.message);
@@ -69,7 +69,7 @@ const Register = () => {
       await mutateAsync(userData);
 
       navigate(f, { replace: true });
-      toast.success("Signup Successful");
+      toast.success("Register Successful");
     } catch (err) {
       console.log(err);
       toast.error(err?.message);

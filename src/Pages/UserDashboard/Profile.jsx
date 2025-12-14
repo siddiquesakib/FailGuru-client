@@ -1,21 +1,66 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Profile = () => {
-  const { user, isPremiumUser } = useAuth();
+  const { user, isPremiumUser, updateUser, setUser, refetchUserData } =
+    useAuth();
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedName, setEditedName] = useState("");
   const [editedPhoto, setEditedPhoto] = useState("");
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  const handleEditProfile = () => {
+  const handleEditProfile = async () => {
     if (isEditMode) {
-      // Save changes logic here
-      console.log("Saving:", { name: editedName, photo: editedPhoto });
-      setIsEditMode(false);
+      // Validate inputs
+      if (!editedName.trim()) {
+        toast.error("Name cannot be empty!");
+        return;
+      }
+
+      if (!editedPhoto.trim()) {
+        toast.error("Photo URL cannot be empty!");
+        return;
+      }
+
+      try {
+        setIsUpdating(true);
+
+        // Update Firebase profile
+        await updateUser(editedName, editedPhoto);
+
+        // Update MongoDB backend
+        await axios.patch(
+          `${import.meta.env.VITE_API_URL}/users/${user?.email}`,
+          {
+            name: editedName,
+            photoURL: editedPhoto,
+          }
+        );
+
+        // Update local user state for real-time UI update
+        setUser({
+          ...user,
+          displayName: editedName,
+          photoURL: editedPhoto,
+        });
+
+        // Refetch user data from backend
+        await refetchUserData();
+
+        toast.success("Profile updated successfully! ✨");
+        setIsEditMode(false);
+      } catch (error) {
+        console.error("Update error:", error);
+        toast.error("Failed to update profile. Please try again.");
+      } finally {
+        setIsUpdating(false);
+      }
     } else {
-      setEditedName(user?.displayName);
-      setEditedPhoto(user?.photoURL);
+      setEditedName(user?.displayName || "");
+      setEditedPhoto(user?.photoURL || "");
       setIsEditMode(true);
     }
   };
@@ -114,26 +159,32 @@ const Profile = () => {
                   <>
                     <button
                       onClick={handleEditProfile}
-                      className="px-6 py-3 bg-green-500 text-white font-bold  border-2 border-black transition-all relative"
+                      disabled={isUpdating}
+                      className="px-6 py-3 bg-green-500 text-white font-bold  border-2 border-black transition-all relative disabled:opacity-50 disabled:cursor-not-allowed"
                       style={{ boxShadow: "4px 4px 0px 0px #000" }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.boxShadow =
-                          "2px 2px 0px 0px #000";
+                        if (!isUpdating) {
+                          e.currentTarget.style.boxShadow =
+                            "2px 2px 0px 0px #000";
+                        }
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.boxShadow =
                           "4px 4px 0px 0px #000";
                       }}
                     >
-                      ✓ Save Changes
+                      {isUpdating ? "⏳ Saving..." : "✓ Save Changes"}
                     </button>
                     <button
                       onClick={handleCancelEdit}
-                      className="px-6 py-3 bg-gray-300 text-gray-700 font-bold  border-2 border-black transition-all relative"
+                      disabled={isUpdating}
+                      className="px-6 py-3 bg-gray-300 text-gray-700 font-bold  border-2 border-black transition-all relative disabled:opacity-50 disabled:cursor-not-allowed"
                       style={{ boxShadow: "4px 4px 0px 0px #000" }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.boxShadow =
-                          "2px 2px 0px 0px #000";
+                        if (!isUpdating) {
+                          e.currentTarget.style.boxShadow =
+                            "2px 2px 0px 0px #000";
+                        }
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.boxShadow =

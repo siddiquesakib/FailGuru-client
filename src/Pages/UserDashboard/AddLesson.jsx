@@ -23,7 +23,7 @@ const AddLesson = () => {
     mutationFn: async (payload) =>
       await axios.post(`${import.meta.env.VITE_API_URL}/lessons`, payload),
     onSuccess: () => {
-      toast.success("lessons added ");
+      toast.success("lessons Created");
     },
   });
 
