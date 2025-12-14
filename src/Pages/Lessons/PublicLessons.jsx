@@ -74,7 +74,7 @@ const PublicLessons = () => {
   const emotionalTones = ["Motivational", "Sad", "Realization", "Gratitude"];
 
   return (
-    <Container className="min-h-screen py-4 sm:py-6 md:py-8 px-2 sm:px-4">
+    <Container className="min-h-screen py-4 sm:py-6 md:py-8 px-2 sm:px-4 pt-10">
       <div className="my-8 sm:my-12 md:my-15">
         {/* Header */}
         <div className="mb-4 sm:mb-6 md:mb-8">

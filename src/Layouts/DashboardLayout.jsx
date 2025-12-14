@@ -14,7 +14,7 @@ const DashboardLayout = () => {
       <Navbar />
 
       {/* Main Area - Sidebar + Content */}
-      <div className="flex flex-1">
+      <div className="flex flex-1 mt-16">
         {/* Sidebar */}
         <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
 

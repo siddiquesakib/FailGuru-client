@@ -1,44 +1,82 @@
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useLocation } from "react-router";
 import MyNavLink from "./MyNavlink";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { CircleUserRound, HeartPlus, LogOut } from "lucide-react";
 import Logo from "../Logo/Logo";
 
 const Navbar = () => {
   const { user, logOut, isPremiumUser } = useAuth();
+  const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  const isHomePage = location.pathname === "/";
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  // Scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navlink = (
     <>
       <li>
-        <MyNavLink to="/" onClick={closeMobileMenu}>
+        <MyNavLink
+          to="/"
+          onClick={closeMobileMenu}
+          isScrolled={!isHomePage || isScrolled}
+        >
           Home
         </MyNavLink>
       </li>
       <li>
-        <MyNavLink to="/dashboard/add-lesson" onClick={closeMobileMenu}>
+        <MyNavLink
+          to="/dashboard/add-lesson"
+          onClick={closeMobileMenu}
+          isScrolled={!isHomePage || isScrolled}
+        >
           Add Lesson
         </MyNavLink>
       </li>
 
       <li>
-        <MyNavLink to="/dashboard/my-lesson" onClick={closeMobileMenu}>
+        <MyNavLink
+          to="/dashboard/my-lesson"
+          onClick={closeMobileMenu}
+          isScrolled={!isHomePage || isScrolled}
+        >
           My Lessons
         </MyNavLink>
       </li>
       <li>
-        <MyNavLink to="/publiclessons" onClick={closeMobileMenu}>
+        <MyNavLink
+          to="/publiclessons"
+          onClick={closeMobileMenu}
+          isScrolled={!isHomePage || isScrolled}
+        >
           Public Lessons
         </MyNavLink>
       </li>
       <li>
-        <MyNavLink to="/pricing" onClick={closeMobileMenu}>
+        <MyNavLink
+          to="/pricing"
+          onClick={closeMobileMenu}
+          isScrolled={!isHomePage || isScrolled}
+        >
           Pricing
         </MyNavLink>
       </li>
@@ -57,12 +95,18 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`border-b border-gray-200 bg-[#f9f5f6] bg-[url(/bgimg.png)] top-0 z-50 sticky`}
+      className={`border-b top-0 z-50 fixed w-full transition-all duration-300 ${
+        isHomePage && !isScrolled
+          ? "bg-transparent border-transparent"
+          : "bg-[#f9f5f6] bg-[url(/bgimg.png)] border-gray-200 shadow-md"
+      }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Logo />
+          {/* Logo with conditional styling */}
+          <div className={isHomePage && !isScrolled ? "" : ""}>
+            <Logo />
+          </div>
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center">
@@ -166,7 +210,11 @@ const Navbar = () => {
               <>
                 <Link
                   to="/auth/login"
-                  className="hidden md:inline-block px-4 py-2 text-sm font-semibold text-black hover:text-gray-600 transition-colors"
+                  className={`hidden md:inline-block px-4 py-2 text-sm font-semibold transition-colors ${
+                    isHomePage && !isScrolled
+                      ? "text-white hover:text-yellow-300 "
+                      : "text-black hover:text-gray-600"
+                  }`}
                 >
                   Login
                 </Link>
@@ -194,7 +242,9 @@ const Navbar = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-gray-700"
+              className={`md:hidden p-2 transition-all ${
+                isHomePage && !isScrolled ? "text-white " : "text-gray-700"
+              }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

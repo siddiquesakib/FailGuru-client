@@ -41,7 +41,7 @@ const Slider = () => {
   ];
 
   return (
-    <div className="relative">
+    <div className="relative -mt-16">
       <Swiper
         modules={[
           Navigation,
@@ -69,7 +69,7 @@ const Slider = () => {
       >
         {slides.map((slide, id) => (
           <SwiperSlide key={id}>
-            <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[520px]">
+            <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[640px]">
               {/* Image */}
               <img
                 src={slide.img}

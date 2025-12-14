@@ -1,11 +1,13 @@
 // DidaskoLogo.jsx
 
 import React from "react";
+import { Link } from "react-router";
 
 const Logo = () => {
   return (
     <div className="flex items-center space-x-1 cursor-pointer select-none">
-      <span
+      <Link
+        to={"/"}
         className={`text-2xl font2 font-extrabold tracking-tight`}
         style={{
           color: "#FBBF24",
@@ -13,7 +15,7 @@ const Logo = () => {
         }}
       >
         FailGuru
-      </span>
+      </Link>
     </div>
   );
 };

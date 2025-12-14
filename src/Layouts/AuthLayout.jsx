@@ -7,7 +7,7 @@ const AuthLayout = () => {
   return (
     <div className="min-h-screen bg-[url(/bgimg.png)] flex flex-col">
       <Navbar />
-      <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-12 py-8 sm:py-12">
+      <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-12 py-8 sm:py-12 mt-16">
         <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 items-center">
           <div className="hidden lg:flex flex-col gap-4">
             <h1 className="text-3xl xl:text-4xl font-black leading-tight text-[#ad651c]">
