@@ -91,6 +91,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-[url(/bgimg.png)] py-8 md:px-4">
+      <title>FailGuru | Admin </title>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">

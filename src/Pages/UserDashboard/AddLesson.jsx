@@ -102,6 +102,7 @@ const AddLesson = () => {
 
   return (
     <div className="min-h-screen bg-[url(/bgimg.png)] py-4 sm:py-6 md:py-8 ">
+      <title>FailGuru | Add Lessons</title>
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-6 sm:mb-8">

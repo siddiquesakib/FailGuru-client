@@ -71,6 +71,7 @@ const ReportedLessons = () => {
 
   return (
     <div className="min-h-screen bg-[url(/bgimg.png)] py-4 sm:py-6 md:py-8 sm:px-4">
+      <title>FailGuru | Reports </title>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-4 sm:mb-6 md:mb-8">

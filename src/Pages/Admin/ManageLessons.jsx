@@ -74,6 +74,7 @@ const ManageLessons = () => {
 
   return (
     <div className="bg-[url(/bgimg.png)] sm:px-4">
+      <title>FailGuru | Manage Lessons </title>
       {/* Header */}
       <div className="mb-4 sm:mb-6">
         <Heading className="text-2xl sm:text-3xl md:text-4xl font-black mb-2 font2">

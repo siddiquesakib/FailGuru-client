@@ -35,6 +35,7 @@ const ManageUsers = () => {
 
   return (
     <div className="bg-[url(/bgimg.png)] py-2 sm:py-4 sm:px-4">
+      <title>FailGuru | Manage Users </title>
       {/* Header */}
       <div className="mb-4 sm:mb-6">
         <Heading className="text-2xl sm:text-3xl md:text-4xl font-black mb-2 font2">
