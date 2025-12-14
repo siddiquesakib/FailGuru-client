@@ -1,38 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import useAxiosSecure from "../../hooks/UseAxios";
-import { useForm } from "react-hook-form";
-import { imageUpload } from "../../Utils";
-import { toast } from "react-toastify";
 import Heading from "../../Component/Shared/Heading";
 import Paragraph from "../../Component/Shared/Paragraph";
 
 const MyLessons = () => {
-  const { user, isPremiumUser } = useAuth();
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [selectedLesson, setSelectedLesson] = useState(null);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    setValue,
-  } = useForm();
-
-  const categories = [
-    "Personal Growth",
-    "Career",
-    "Relationships",
-    "Mindset",
-    "Mistakes Learned",
-  ];
-  const emotionalTones = ["Motivational", "Sad", "Realization", "Gratitude"];
 
   // Helper: decode HTML entities, strip tags and truncate
   const decodeAndTrim = (html = "", max = 80) => {
@@ -106,76 +84,6 @@ const MyLessons = () => {
         }
       }
     });
-  };
-
-  // Update mutation
-  const { mutateAsync: updateLesson } = useMutation({
-    mutationFn: async ({ id, payload }) =>
-      await axiosSecure.patch(`/my-lessons/${id}`, payload),
-    onSuccess: () => {
-      toast.success("Lesson updated successfully!");
-      setShowUpdateModal(false);
-      refetch();
-    },
-    onError: (err) => {
-      toast.error(err.response?.data?.message || "Failed to update lesson");
-    },
-  });
-
-  const openUpdateModal = (lesson) => {
-    setSelectedLesson(lesson);
-    // Set form values
-    setValue("title", lesson.title);
-    setValue("description", lesson.description);
-    setValue("category", lesson.category);
-    setValue("emotionalTone", lesson.emotionalTone);
-    setValue("privacy", lesson.privacy);
-    setValue("accessLevel", lesson.accessLevel);
-    setValue("currentImage", lesson.image);
-    setShowUpdateModal(true);
-  };
-
-  const onUpdate = async (data) => {
-    const {
-      title,
-      description,
-      emotionalTone,
-      privacy,
-      accessLevel,
-      category,
-      image,
-      currentImage,
-    } = data;
-
-    try {
-      let imgUrl = currentImage;
-
-      // If new image is uploaded
-      if (image && image[0]) {
-        const imgFile = image[0];
-        imgUrl = await imageUpload(imgFile);
-      }
-
-      const updatedLessonData = {
-        title,
-        description,
-        category,
-        emotionalTone,
-        image: imgUrl,
-        privacy,
-        accessLevel,
-        updatedDate: new Date().toISOString(),
-      };
-
-      await updateLesson({
-        id: selectedLesson._id,
-        payload: updatedLessonData,
-      });
-      reset();
-    } catch (err) {
-      console.log(err);
-      toast.error("Failed to update lesson");
-    }
   };
 
   return (
