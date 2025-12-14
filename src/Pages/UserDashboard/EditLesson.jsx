@@ -24,7 +24,6 @@ const EditLesson = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     setValue,
   } = useForm();
 

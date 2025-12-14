@@ -19,69 +19,47 @@ const ManageLessons = () => {
   console.log(lessons);
 
   //delete lesson
-  // const handleDelete = (id) => {
-  //   Swal.fire({
-  //     title: "Are you sure?",
-  //     text: "You won't be able to revert this!",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "Yes, delete it!",
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       fetch(`${import.meta.env.VITE_API_URL}/my-lessons/${id}`, {
-  //         method: "DELETE",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       })
-  //         .then((res) => {
-  //           if (!res.ok) {
-  //             throw new Error("Failed to delete");
-  //           }
-  //           return res.json();
-  //         })
-  //         .then(() => {
-  //           Swal.fire({
-  //             title: "Deleted!",
-  //             text: "Your lesson has been deleted.",
-  //             icon: "success",
-  //           });
-  //           refetch();
-  //         })
-  //         .catch((err) => {
-  //           console.error("Delete error:", err);
-  //           Swal.fire({
-  //             title: "Error!",
-  //             text: "Failed to delete lesson. Please try again.",
-  //             icon: "error",
-  //           });
-  //         });
-  //     }
-  //   });
-  // };
-
-  //delete lesson
   const handleDelete = (id) => {
-    fetch(`${import.meta.env.VITE_API_URL}/my-lessons/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to delete");
-        }
-        return res.json();
-      })
-      .then(() => {
-        refetch();
-      })
-      .catch((err) => {
-        console.error("Delete error:", err);
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`${import.meta.env.VITE_API_URL}/my-lessons/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("Failed to delete");
+            }
+            return res.json();
+          })
+          .then(() => {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your lesson has been deleted.",
+              icon: "success",
+            });
+            refetch();
+          })
+          .catch((err) => {
+            console.error("Delete error:", err);
+            Swal.fire({
+              title: "Error!",
+              text: "Failed to delete lesson. Please try again.",
+              icon: "error",
+            });
+          });
+      }
+    });
   };
 
   //togle feature

@@ -24,7 +24,7 @@ import {
 
 const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   const { user, logOut } = useAuth();
-  const [role, isRoleLoading] = useRole();
+  const [role] = useRole();
 
   const isAdmin = role === "admin";
   console.log("Current Role:", role, "Is Admin:", isAdmin);

@@ -35,7 +35,6 @@ const MyFavorites = () => {
     data: favorites,
     refetch,
     isLoading,
-    isError,
   } = useQuery({
     queryKey: ["my-favorites", user?.email],
     queryFn: async () => {
